@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guía del Panel de Ventas · Alfa</title>
+<meta name="description" content="Cómo usar el nuevo panel de ventas de Alfa (Basik), paso a paso.">
+<meta name="theme-color" content="#111111">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  try { var d = localStorage.getItem('basik-guia-disp'); document.documentElement.setAttribute('data-disp', d === 'laptop' || d === 'telefono' ? d : (window.innerWidth >= 900 ? 'laptop' : 'telefono')); } catch (e) { document.documentElement.setAttribute('data-disp', window.innerWidth >= 900 ? 'laptop' : 'telefono'); }
+</script>
+<style>
+  :root {
+    color-scheme: light;
+    --fondo: #F6F6F6; --blanco: #FFFFFF; --lavanda: #F1F1F1; --linea: #E2E2E2;
+    --violeta: #141414; --violeta-2: #333333; --lima: #D42300; --sobre-lima: #FFFFFF; --lima-tinta: #B81E00;
+    --texto: #141414; --texto-2: #444444; --texto-3: #5C5C5C;
+    --coral: #C62828; --menta: #0E7A4F; --ambar: #A86400;
+    --sombra: 0 1px 2px rgba(0, 0, 0, .06), 0 12px 32px -18px rgba(0, 0, 0, .3);
+    --r: 22px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; scroll-padding-top: 150px; }
+  body {
+    margin: 0; color: var(--texto); font: 16px/1.6 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased;
+    background: radial-gradient(900px 500px at 90% -5%, color-mix(in srgb, var(--lima) 18%, transparent), transparent 70%),
+                radial-gradient(800px 600px at -10% 15%, color-mix(in srgb, var(--violeta) 10%, transparent), transparent 70%), var(--fondo);
+  }
+  h1, h2, h3 { font-family: 'Space Grotesk', 'Inter', sans-serif; line-height: 1.15; margin: 0; letter-spacing: -.3px; }
+  p { margin: 0; }
+  a { color: var(--violeta); }
+  :focus-visible { outline: 3px solid color-mix(in srgb, var(--violeta) 55%, transparent); outline-offset: 2px; border-radius: 8px; }
+  .saltar { position: absolute; left: -999px; top: 8px; background: var(--violeta); color: #fff; padding: 8px 14px; border-radius: 10px; z-index: 50; }
+  .saltar:focus { left: 12px; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+  /* Progreso de lectura */
+  .progreso { position: fixed; left: 0; top: 0; height: 4px; width: 100%; transform-origin: 0 50%; transform: scaleX(0); background: linear-gradient(90deg, var(--violeta), var(--lima)); z-index: 40; }
+
+  /* Burbuja superior */
+  .burbuja {
+    position: sticky; top: 10px; z-index: 30; margin: 10px auto 0; width: min(1080px, calc(100% - 20px));
+    display: flex; align-items: center; gap: 12px; padding: 10px 12px 10px 20px; border-radius: 999px;
+    background: #111111; border: 1px solid color-mix(in srgb, #FF2A00 70%, transparent); color: #fff;
+    box-shadow: 0 14px 34px -18px rgba(0, 0, 0, .75);
+  }
+  .burbuja img { height: 24px; width: auto; display: block; }
+  .burbuja .etq { font-size: 13px; color: rgba(255, 255, 255, .82); font-weight: 500; }
+  .burbuja a.btn { margin-left: auto; }
+  .btn { display: inline-flex; align-items: center; gap: 8px; min-height: 40px; padding: 8px 16px; border-radius: 999px; font-weight: 600; font-size: 14px; text-decoration: none; transition: transform .18s, box-shadow .18s; }
+  .btn:hover { transform: translateY(-1px); }
+  .btn-lima { background: var(--lima); color: var(--sobre-lima); box-shadow: 0 8px 18px -10px rgba(110, 120, 0, .8); }
+  .btn-violeta { background: var(--violeta); color: #fff; box-shadow: 0 8px 18px -10px rgba(0, 0, 0, .8); }
+
+  main { width: min(1080px, calc(100% - 32px)); margin: 0 auto; padding-bottom: 80px; }
+
+  /* Portada */
+  .portada { padding: 48px 0 28px; display: grid; gap: 18px; }
+  .portada .sello { justify-self: start; font-size: 13px; font-weight: 600; color: var(--violeta); background: var(--lavanda); border-radius: 999px; padding: 4px 12px; }
+  .portada h1 { font-size: clamp(32px, 7vw, 52px); }
+  .portada h1 span { color: var(--violeta); }
+  .portada .bajada { font-size: 18px; color: var(--texto-2); max-width: 60ch; }
+  .datos { display: flex; gap: 10px; flex-wrap: wrap; }
+  .dato { background: var(--blanco); border: 1px solid var(--linea); border-radius: 16px; padding: 10px 14px; font-size: 14px; color: var(--texto-2); box-shadow: var(--sombra); }
+  .dato b { color: var(--texto); font-family: 'Space Grotesk', sans-serif; }
+
+  /* Índice */
+  .indice { position: sticky; top: 86px; z-index: 20; margin: 8px 0 26px; padding: 8px; border-radius: 18px; background: color-mix(in srgb, #fff 82%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border: 1px solid var(--linea); }
+  .indice ol { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .indice ol::-webkit-scrollbar { display: none; }
+  .indice a { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; text-decoration: none; color: var(--texto-2); font-size: 14px; font-weight: 500; padding: 7px 12px; border-radius: 999px; transition: background .18s, color .18s; }
+  .indice a .n { font: 700 12px 'Space Grotesk', sans-serif; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; background: var(--lavanda); color: var(--violeta); }
+  .indice a:hover { background: var(--lavanda); color: var(--violeta); }
+  .indice a[aria-current="true"] { background: var(--violeta); color: #fff; }
+  .indice a[aria-current="true"] .n { background: var(--lima); color: var(--sobre-lima); }
+
+  /* Pasos */
+  .paso { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 28px; align-items: start; background: var(--blanco); border: 1px solid var(--linea); border-radius: var(--r); padding: 28px; margin-bottom: 18px; box-shadow: var(--sombra); }
+  .paso.sin-imagen { grid-template-columns: 1fr; }
+  .paso .cab { display: flex; gap: 14px; align-items: center; margin-bottom: 14px; }
+  .num { flex: none; width: 44px; height: 44px; border-radius: 14px; display: grid; place-items: center; font: 700 20px 'Space Grotesk', sans-serif; background: var(--violeta); color: #fff; box-shadow: 0 8px 18px -10px rgba(0, 0, 0, .9); }
+  .paso h2 { font-size: 24px; }
+  .paso .resumen { color: var(--texto-2); margin-bottom: 14px; }
+  .pasos-lista { margin: 0 0 4px; padding: 0; list-style: none; counter-reset: p; display: grid; gap: 10px; }
+  .pasos-lista li { position: relative; padding-left: 38px; }
+  .pasos-lista li::before { counter-increment: p; content: counter(p); position: absolute; left: 0; top: 0; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font: 700 13px 'Space Grotesk', sans-serif; background: var(--lavanda); color: var(--violeta); }
+  .tip, .ojo, .regla { margin-top: 16px; border-radius: 16px; padding: 14px 16px; font-size: 15px; }
+  .tip { background: color-mix(in srgb, var(--lima) 22%, #fff); border: 1px solid color-mix(in srgb, var(--lima) 70%, var(--linea)); }
+  .ojo { background: color-mix(in srgb, var(--coral) 7%, #fff); border: 1px solid color-mix(in srgb, var(--coral) 30%, var(--linea)); }
+  .regla { background: var(--lavanda); border: 1px solid var(--linea); }
+  .tip b:first-child, .ojo b:first-child, .regla b:first-child { display: block; margin-bottom: 2px; }
+  .chip { display: inline-block; font-size: 13px; font-weight: 600; padding: 1px 9px; border-radius: 999px; background: var(--lavanda); color: var(--violeta); white-space: nowrap; }
+  .chip.lima { background: var(--lima); color: var(--sobre-lima); }
+  .chip.rojo { background: color-mix(in srgb, var(--coral) 12%, #fff); color: var(--coral); }
+  .chip.verde { background: color-mix(in srgb, var(--menta) 12%, #fff); color: var(--menta); }
+
+  /* Interruptor Teléfono / Laptop */
+  .disp { display: inline-flex; gap: 2px; padding: 3px; margin: 0 0 6px; border-radius: 999px; background: var(--lavanda); }
+  .disp button { border: 0; background: transparent; color: var(--texto-2); font: 600 14px 'Inter', sans-serif; padding: 7px 14px; border-radius: 999px; cursor: pointer; min-height: 36px; transition: background .18s, color .18s; }
+  .disp button[aria-pressed="true"] { background: var(--violeta); color: #fff; box-shadow: 0 6px 14px -8px rgba(0, 0, 0, .9); }
+  html[data-disp="telefono"] .solo-lap, html[data-disp="laptop"] .solo-tel { display: none !important; }
+  html:not([data-disp]) .solo-lap { display: none !important; }
+
+  /* Laptop con la captura */
+  .laptop { width: 100%; max-width: 820px; margin: 0 auto; }
+  .laptop .pantalla { padding: 10px 10px 12px; border-radius: 16px 16px 4px 4px; background: #111111; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); }
+  .laptop .pantalla img { display: block; width: 100%; height: auto; border-radius: 6px; background: #fff; }
+  .laptop .base { height: 14px; margin: 0 -4%; border-radius: 0 0 14px 14px; background: linear-gradient(#DDDDDD, #BDBDBD); box-shadow: 0 10px 18px -12px rgba(0, 0, 0, .5); }
+  .laptop .base::before { content: ""; display: block; width: 18%; height: 5px; margin: 0 auto; border-radius: 0 0 6px 6px; background: #A5A5A5; }
+  html[data-disp="laptop"] .paso { grid-template-columns: 1fr; }
+  html[data-disp="laptop"] .paso figure { max-width: 860px; width: 100%; margin: 0 auto; }
+
+  /* Teléfono con la captura */
+  figure { margin: 0; }
+  .telefono { position: relative; width: 100%; max-width: 300px; margin: 0 auto; padding: 10px; border-radius: 34px; background: #111111; box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6); transition: transform .3s; }
+  .telefono:hover { transform: translateY(-4px) rotate(-.6deg); }
+  .telefono img { display: block; width: 100%; height: auto; border-radius: 26px; background: #fff; }
+  figcaption { text-align: center; font-size: 13px; color: var(--texto-3); margin-top: 10px; }
+  .boton-zoom { all: unset; cursor: zoom-in; display: block; border-radius: 34px; }
+  .boton-zoom:focus-visible { outline: 3px solid color-mix(in srgb, var(--violeta) 55%, transparent); outline-offset: 4px; }
+
+  /* Tabla de sí / no */
+  .tabla-si-no { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px; }
+  .tabla-si-no div { border-radius: 16px; padding: 14px 16px; font-size: 15px; }
+  .tabla-si-no .si { background: color-mix(in srgb, var(--menta) 8%, #fff); border: 1px solid color-mix(in srgb, var(--menta) 30%, var(--linea)); }
+  .tabla-si-no .no { background: color-mix(in srgb, var(--coral) 6%, #fff); border: 1px solid color-mix(in srgb, var(--coral) 28%, var(--linea)); }
+  .tabla-si-no h3 { font-size: 16px; margin-bottom: 8px; }
+  .tabla-si-no ul { margin: 0; padding-left: 18px; display: grid; gap: 4px; }
+
+  /* Estados */
+  .estados { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin-top: 14px; }
+  .estado { border: 1px solid var(--linea); border-radius: 14px; padding: 12px; font-size: 14px; color: var(--texto-2); }
+  .estado b { display: block; color: var(--texto); font-size: 15px; margin-bottom: 2px; }
+
+  /* Preguntas */
+  .faq details { border: 1px solid var(--linea); border-radius: 16px; background: var(--blanco); margin-bottom: 10px; box-shadow: var(--sombra); overflow: hidden; }
+  .faq summary { cursor: pointer; list-style: none; padding: 16px 48px 16px 18px; font-weight: 600; position: relative; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: "+"; position: absolute; right: 18px; top: 50%; transform: translateY(-50%); width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--lavanda); color: var(--violeta); font: 700 18px 'Space Grotesk', sans-serif; transition: transform .2s; }
+  .faq details[open] summary::after { content: "–"; }
+  .faq details p { padding: 0 18px 16px; color: var(--texto-2); }
+  .titulo-seccion { font-size: 28px; margin: 40px 0 16px; }
+  .lideres { background: linear-gradient(160deg, var(--lavanda), color-mix(in srgb, var(--lima) 10%, #fff)); }
+
+  /* Visor de captura */
+  .visor { position: fixed; inset: 0; z-index: 60; display: none; place-items: center; padding: 20px; background: rgba(46, 38, 110, .55); -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
+  .visor.abierto { display: grid; }
+  .visor.ancho img { max-width: min(1200px, 100%); border-radius: 10px; }
+  .visor img { max-width: min(420px, 100%); max-height: calc(100vh - 80px); border-radius: 26px; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, .5); background: #fff; }
+  .visor button { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: #fff; color: var(--violeta); font: 700 22px 'Space Grotesk', sans-serif; cursor: pointer; }
+
+  .arriba { position: fixed; right: 16px; bottom: 16px; z-index: 25; width: 48px; height: 48px; border-radius: 50%; border: 0; background: var(--lima); color: var(--sobre-lima); font-size: 20px; cursor: pointer; box-shadow: 0 10px 24px -12px rgba(110, 120, 0, .9); opacity: 0; pointer-events: none; transition: opacity .2s, transform .2s; }
+  .arriba.visible { opacity: 1; pointer-events: auto; }
+  .arriba:hover { transform: translateY(-2px); }
+  footer { text-align: center; color: var(--texto-3); font-size: 14px; padding: 30px 16px 50px; }
+
+  /* Antes el contenido empezaba invisible y aparecía al bajar: en algunos navegadores (y en el de WhatsApp)
+     nunca aparecía y la página se veía en blanco. Ahora siempre se ve; solo hay una entrada suave al cargar. */
+  .aparece { animation: entra-suave .45s ease both; }
+  @keyframes entra-suave { from { opacity: .001; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+
+  @media (max-width: 820px) {
+    .paso { grid-template-columns: 1fr; padding: 20px; gap: 20px; }
+    .telefono { max-width: 260px; }
+    .tabla-si-no { grid-template-columns: 1fr; }
+    .burbuja .etq { display: none; }
+    .indice { top: 84px; }
+    .datos { display: grid; grid-template-columns: 1fr 1fr; }
+    .dato { text-align: center; }
+  }
+  @media (max-width: 420px) {
+    main { width: calc(100% - 24px); }
+    .paso h2 { font-size: 21px; }
+    .portada { padding-top: 32px; }
+  }
+</style>
+</head>
+<body>
+<a class="saltar" href="#contenido">Saltar al contenido</a>
+<div class="progreso" id="progreso" aria-hidden="true"></div>
+
+<header class="burbuja">
+  <img alt="Basik" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxNTAuMDAxIDM4LjY1NiI+PHBhdGggZmlsbC1ydWxlPSJub256ZXJvIiBmaWxsPSIjRkZGRkZGIiBkPSJNOC4wNDMgMzAuODc5QzcuOTM0IDMwLjg3OSA3Ljg1NSAzMC44NTAgNy44MDYgMzAuODAwQzcuNzQ3IDMwLjc0MSA3LjcyNyAzMC42NjIgNy43MjcgMzAuNTY0TDcuNzI3IDI2LjE0OEw0LjQ3NSAyMi44OTZMMzAuNDU1IDIyLjg5NkMzMC41NjQgMjIuODk2IDMwLjY0MyAyMi45MzUgMzAuNzAyIDIzLjAwNEMzMC43NTEgMjMuMDczIDMwLjc3MSAyMy4xNDIgMzAuNzcxIDIzLjIxMUwzMC43NzEgMjcuNTk3TDM0LjA2MyAzMC44NzlMOC4wNDMgMzAuODc5TTI4Ljk1NyA3LjgzNkMyOS4wMjYgNy44MzYgMjkuMDk1IDcuODU1IDI5LjE2NCA3LjkxNEMyOS4yNDMgNy45NjQgMjkuMjczIDguMDQzIDI5LjI3MyA4LjE1MUwyOS4yNzMgMTEuODY3TDMyLjUyNSAxNS4xMTlMOC4wNDMgMTUuMTE5QzcuOTM0IDE1LjExOSA3Ljg1NSAxNS4wOTAgNy44MDYgMTUuMDQwQzcuNzQ3IDE0Ljk4MSA3LjcyNyAxNC45MjIgNy43MjcgMTQuODUzTDcuNzI3IDExLjA3OEw0LjQ3NSA3LjgzNkwyOC45NTcgNy44MzZNMzguMDY0IDIwLjEzNkMzNy43MTAgMTkuMjU5IDM3LjI0NiAxOC40NDEgMzYuNjc1IDE3LjY5MkMzNi44MTMgMTcuMjk4IDM2LjkyMSAxNi44OTMgMzcuMDAwIDE2LjQ4OUMzNy4wNjkgMTYuMDc1IDM3LjEwOCAxNS42NDIgMzcuMTA4IDE1LjE2OUwzNy4xMDggNy43NzdDMzcuMTA4IDYuMzQ3IDM2Ljc0NCA1LjA0NiAzNi4wMjQgMy44ODNDMzUuMzE1IDIuNzMwIDM0LjM3OCAxLjc5NCAzMy4yMTUgMS4xMDRDMzIuMDUyIDAuNDA0IDMwLjc3MSAwLjA1OSAyOS4zODEgMC4wNTlMMC4wMDAgMC4wNTlMMC4wMDAgMzguNjU2TDMwLjgzMCAzOC42NTZDMzIuMjU5IDM4LjY1NiAzMy41NjAgMzguMzAxIDM0LjcxMyAzNy42MTFDMzUuODc2IDM2LjkxMSAzNi44MTMgMzUuOTg1IDM3LjUzMiAzNC44MjJDMzguMjUyIDMzLjY1OSAzOC42MDcgMzIuMzY4IDM4LjYwNyAzMC45MzhMMzguNjA3IDIyLjc4N0MzOC42MDcgMjEuOTAwIDM4LjQxOSAyMS4wMTMgMzguMDY0IDIwLjEzNlpNNDkuNzkzIDMxLjA0N0M0OS43MjQgMzEuMDQ3IDQ5LjY0NSAzMS4wMDcgNDkuNTc2IDMwLjkzOEM0OS41MDcgMzAuODYwIDQ5LjQ2OCAzMC43OTEgNDkuNDY4IDMwLjcyMkw0OS40NjggMjkuMzAyTDQ2LjIyNSAyNi4wNjBMNjUuNzcwIDI2LjA2MEw2NS43NzAgMjcuODE0TDY5LjAwMyAzMS4wNDdMNDkuNzkzIDMxLjA0N003Mi4zNjQgMTEuMzY0QzcxLjY4NCAxMC4yMzEgNzAuNzc3IDkuMzA0IDY5LjYzNCA4LjYwNEM2OC40OTAgNy45MTQgNjcuMjE5IDcuNTYwIDY1LjgxOSA3LjU2MEw0MS44NTkgNy41NjBMNDEuODU5IDE1LjE2OUw2NS40NDUgMTUuMTY5QzY1LjUyNCAxNS4xNjkgNjUuNTkzIDE1LjIwOCA2NS42NjIgMTUuMjc3QzY1LjczMSAxNS4zNTYgNjUuNzcwIDE1LjQyNSA2NS43NzAgMTUuNDk0TDY1Ljc3MCAxOS4yNDlMNDEuODU5IDE5LjI0OUw0MS44NTkgMzEuMDk2QzQxLjg1OSAzMi40NTYgNDIuMTk0IDMzLjcwOCA0Mi44ODQgMzQuODUxQzQzLjU1NCAzNS45OTUgNDQuNDgxIDM2LjkxMSA0NS42MzQgMzcuNjExQzQ2Ljc5NyAzOC4zMDEgNDguMDU5IDM4LjY1NiA0OS40MTkgMzguNjU2TDczLjM3OSAzOC42NTZMNzMuMzc5IDE1LjExOUM3My4zNzkgMTMuNzU5IDczLjA0NCAxMi41MTcgNzIuMzY0IDExLjM2NFpNMTE5LjAzMyA3LjU2MEwxMTkuMDMzIDM1LjQwM0wxMTUuNzgwIDM4LjY1NkwxMTEuNDE0IDM4LjY1NkwxMTEuNDE0IDEwLjgwMkwxMTQuNjU2IDcuNTYwTDExOS4wMzMgNy41NjBaTTE1MC4wMDEgOS45MTVMMTM4LjA0NSAyMy4xMDNMMTUwLjAwMSAzNi4zMDBMMTUwLjAwMSAzOC42NTZMMTQyLjExNiAzOC42NTZMMTMxLjM0MyAyNi45NjZMMTI2LjYzMiAyNi45NjZMMTI5LjkxNCAzMC4yNDlMMTI5LjkxNCAzOC42NTZMMTIyLjI5NSAzOC42NTZMMTIyLjQ5MiAwLjAwMEwxMzAuMTAxIDAuMDAwTDEyOS45NDMgMTUuOTI4TDEyNi42MzIgMTkuMjQ5TDEzMS4zNDMgMTkuMjQ5TDE0Mi4xMTYgNy41NjBMMTUwLjAwMSA3LjU2MEwxNTAuMDAxIDkuOTE1Wk0xMDAuNjIxIDE2LjQzMEwxMDAuNjIxIDE1LjQwNUMxMDAuNjIxIDE1LjMzNiAxMDAuNTgyIDE1LjI2NyAxMDAuNTEzIDE1LjE4OEMxMDAuNDQ0IDE1LjExOSAxMDAuMzc1IDE1LjA4MCAxMDAuMjk2IDE1LjA4MEw4MS4wMTcgMTUuMDgwTDg0LjI5MCAxOC45ODNDODQuMzAwIDE5LjAyMiA4NC4zMzkgMTkuMDUyIDg0LjM3OCAxOS4wODFDODQuNDQ3IDE5LjE0MSA4NC41MjYgMTkuMTcwIDg0LjU5NSAxOS4xNzBMMTAwLjY3MSAxOS4xNzBDMTAyLjA3MCAxOS4xNzAgMTAzLjM1MSAxOS41MjUgMTA0LjQ5NSAyMC4yMTVDMTA1LjYzOCAyMC45MTUgMTA2LjU2NSAyMS44NDEgMTA3LjI2NCAyMi45ODVDMTA3Ljk2NCAyNC4xMzggMTA4LjMwOSAyNS40MDkgMTA4LjMwOSAyNi44MDlMMTA4LjMwOSAzMS4wNTdDMTA4LjMwOSAzMi40MTcgMTA3Ljk2NCAzMy42NjkgMTA3LjI2NCAzNC44MTJDMTA2LjU2NSAzNS45NjUgMTA1LjYzOCAzNi44OTIgMTA0LjQ5NSAzNy41OTFDMTAzLjM1MSAzOC4yODEgMTAyLjA3MCAzOC42MzYgMTAwLjY3MSAzOC42MzZMODQuMjIxIDM4LjYzNkM4Mi44NjEgMzguNjM2IDgxLjU5OSAzOC4yODEgODAuNDU2IDM3LjU5MUM3OS4zMDIgMzYuODkyIDc4LjM4NiAzNS45NjUgNzcuNjg2IDM0LjgxMkM3Ni45ODYgMzMuNjY5IDc2LjY0MSAzMi40MTcgNzYuNjQxIDMxLjA1N0w3Ni42NDEgMjkuNjU3TDg0LjI4MCAyOS42NTdMODQuMjgwIDMwLjY3MkM4NC4yODAgMzAuNzUxIDg0LjMwOSAzMC44MjAgODQuMzc4IDMwLjg4OUM4NC40NDcgMzAuOTY4IDg0LjUyNiAzMC45OTggODQuNTk1IDMwLjk5OEwxMDMuODc0IDMwLjk5OEwxMDAuNjAyIDI3LjEwNEMxMDAuNTgyIDI3LjA2NSAxMDAuNTYyIDI3LjAyNiAxMDAuNTEzIDI2Ljk5NkMxMDAuNDQ0IDI2LjkzNyAxMDAuMzc1IDI2LjkxNyAxMDAuMjk2IDI2LjkxN0w4NC4yMjEgMjYuOTE3QzgyLjg2MSAyNi45MTcgODEuNTk5IDI2LjU2MiA4MC40NTYgMjUuODYzQzc5LjMwMiAyNS4xNjMgNzguMzg2IDI0LjIzNiA3Ny42ODYgMjMuMDkzQzc2Ljk4NiAyMS45NTAgNzYuNjQxIDIwLjY3OCA3Ni42NDEgMTkuMjc5TDc2LjY0MSAxNS4wMzFDNzYuNjQxIDEzLjY3MCA3Ni45ODYgMTIuNDA5IDc3LjY4NiAxMS4yNjZDNzguMzg2IDEwLjEyMiA3OS4zMDIgOS4xOTYgODAuNDU2IDguNDk2QzgxLjU5OSA3Ljc5NiA4Mi44NjEgNy40NDEgODQuMjIxIDcuNDQxTDEwMC42NzEgNy40NDFDMTAyLjA3MCA3LjQ0MSAxMDMuMzUxIDcuNzk2IDEwNC40OTUgOC40OTZDMTA1LjYzOCA5LjE5NiAxMDYuNTY1IDEwLjEyMiAxMDcuMjY0IDExLjI2NkMxMDcuOTY0IDEyLjQwOSAxMDguMzA5IDEzLjY3MCAxMDguMzA5IDE1LjAzMUwxMDguMzA5IDE2LjQzMEwxMDAuNjIxIDE2LjQzMFoiLz48L3N2Zz4=">
+  <span class="etq">Guía del panel de asesores</span>
+  <a class="btn btn-lima" href="https://panel-alfa.netlify.app/" target="_blank" rel="noopener">Abrir el panel</a>
+</header>
+
+<main id="contenido">
+  <section class="portada aparece">
+    <span class="sello">Alfa · versión 2</span>
+    <h1>Tu nuevo panel, <span>paso a paso</span></h1>
+    <p class="bajada">Usa el botón <b>📱 Teléfono / 💻 Laptop</b> de abajo para ver las capturas como en tu equipo. Aquí ves cómo entrar, registrarte en el turno, atender tus leads y reportar los que no sirven. Se lee en 5 minutos y funciona igual en el celular y en la computadora.</p>
+    <div class="datos">
+      <span class="dato">Turno <b>AM</b> 6:30 a 17:00</span>
+      <span class="dato">Turno <b>PM</b> 17:50 a 23:00</span>
+      <span class="dato">Hora de <b>Caracas</b></span>
+      <span class="dato">Cupo de <b>15 leads</b> al día</span>
+      <span class="dato">Contacta antes de <b>15 min</b></span>
+      <span class="dato">A los <b>25 min</b> sin captura se reasigna</span>
+    </div>
+  </section>
+
+  <nav class="indice" aria-label="Pasos de la guía">
+    <div class="disp" role="group" aria-label="Ver las capturas en">
+      <button type="button" data-disp="telefono" aria-pressed="true"><span aria-hidden="true">📱</span> Teléfono</button>
+      <button type="button" data-disp="laptop" aria-pressed="false"><span aria-hidden="true">💻</span> Laptop</button>
+    </div>
+    <ol>
+      <li><a href="#entrar"><span class="n">1</span>Entrar</a></li>
+      <li><a href="#turno"><span class="n">2</span>Registrarte</a></li>
+      <li><a href="#tu-turno"><span class="n">3</span>Tu turno</a></li>
+      <li><a href="#atiende"><span class="n">4</span>Atiende ahora</a></li>
+      <li><a href="#lead"><span class="n">5</span>Un lead</a></li>
+      <li><a href="#comprobante"><span class="n">6</span>Comprobante</a></li>
+      <li><a href="#erroneo"><span class="n">7</span>Lead erróneo</a></li>
+      <li><a href="#mis-leads"><span class="n">8</span>Mis leads</a></li>
+      <li><a href="#menu"><span class="n">9</span>Menú</a></li>
+      <li><a href="#preguntas"><span class="n">?</span>Preguntas</a></li>
+      <li><a href="#lideres"><span class="n">★</span>Líderes</a></li>
+    </ol>
+  </nav>
+
+  <!-- 1 -->
+  <section class="paso aparece" id="entrar" aria-labelledby="t1">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">1</span><h2 id="t1">Entra al panel</h2></div>
+      <p class="resumen">Usa el mismo correo y contraseña del panel anterior. Si es tu primera vez, crea tu cuenta.</p>
+      <ol class="pasos-lista">
+        <li>Abre el enlace del panel. <span class="solo-tel">Guárdalo en tu celular: en el navegador, menú <b>⋮</b> → <b>Agregar a pantalla de inicio</b>.</span><span class="solo-lap">Guárdalo en favoritos con <b>Ctrl+D</b> para tenerlo a mano.</span></li>
+        <li>Escribe tu <b>correo</b> y tu <b>contraseña</b> y pulsa <span class="chip">Entrar</span>.</li>
+        <li>¿Eres nuevo? Pulsa <span class="chip">Soy nuevo: crear cuenta</span> y escribe tu nombre y apellido <b>tal como aparece en la hoja de reparto</b>.</li>
+      </ol>
+      <div class="ojo"><b>Si eres nuevo</b>Al crear la cuenta todavía no puedes trabajar: tu líder tiene que asignarte la tienda <b>Alfa</b>. Avísale cuando entres.</div>
+    </div>
+    <figure class="captura">
+      <div class="solo-tel"><button type="button" class="boton-zoom" aria-label="Ver en grande: pantalla para entrar (teléfono)"><div class="telefono"><img src="guia/01-entrar.jpg" alt="Pantalla de entrada con el logo de Basik, campos de correo y contraseña y el botón Entrar" loading="lazy" width="405" height="831"></div></button><figcaption>Pantalla de entrada</figcaption></div>
+      <div class="solo-lap"><button type="button" class="boton-zoom" aria-label="Ver en grande: pantalla para entrar (laptop)"><div class="laptop"><div class="pantalla"><img src="guia/lap-01-entrar.jpg" alt="Pantalla de entrada del panel en una laptop" loading="lazy" width="1280" height="800"></div><div class="base" aria-hidden="true"></div></div></button><figcaption>Pantalla de entrada</figcaption></div>
+    </figure>
+  </section>
+
+  <!-- 2 -->
+  <section class="paso aparece" id="turno" aria-labelledby="t2">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">2</span><h2 id="t2">Regístrate en el turno</h2></div>
+      <p class="resumen">Sin registrarte no te llegan leads. Lo haces una vez por turno: una vez en el AM y otra en el PM si trabajas los dos.</p>
+      <ol class="pasos-lista">
+        <li>Al entrar ves arriba el aviso <b>“No estás recibiendo leads”</b>.</li>
+        <li>Pulsa <span class="chip lima">Registrarme en el turno</span>. Al lado ves la <b>hora de Caracas con segundos</b>: es la hora exacta con la que te anota la hoja.</li>
+        <li>Espera unos segundos: el panel te anota primero en la hoja de reparto y luego te pone en verde. Te dice a qué hora exacta quedaste registrado.</li>
+      </ol>
+      <div class="regla"><b>Horarios (hora de Caracas)</b>Turno AM: te registras desde las 6:30 y el reparto empieza a las 7:00; cierra a las 17:00. Turno PM: de 17:50 a 23:00. Entre las 17:00 y las 17:50, y después de las 23:00, el registro está cerrado.</div>
+      <div class="tip"><b>Truco</b>El mismo botón, con el reloj, está en el menú lateral, en la tarjeta de abajo.</div>
+    </div>
+    <figure class="captura">
+      <div class="solo-tel"><button type="button" class="boton-zoom" aria-label="Ver en grande: aviso para registrarse en el turno (teléfono)"><div class="telefono"><img src="guia/02-aviso-turno.jpg" alt="Inicio del panel con el aviso No estás recibiendo leads, la hora de Caracas y el botón Registrarme en el turno" loading="lazy" width="405" height="831"></div></button><figcaption>El aviso para registrarte</figcaption></div>
+      <div class="solo-lap"><button type="button" class="boton-zoom" aria-label="Ver en grande: aviso para registrarse en el turno (laptop)"><div class="laptop"><div class="pantalla"><img src="guia/lap-02-aviso-turno.jpg" alt="Inicio del panel en laptop con el aviso No estás recibiendo leads, la hora de Caracas y el botón Registrarme en el turno" loading="lazy" width="1280" height="800"></div><div class="base" aria-hidden="true"></div></div></button><figcaption>El aviso para registrarte</figcaption></div>
+    </figure>
+  </section>
+
+  <!-- 3 -->
+  <section class="paso aparece" id="tu-turno" aria-labelledby="t3">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">3</span><h2 id="t3">Revisa “Tu turno”</h2></div>
+      <p class="resumen">En Inicio tienes la tarjeta “Tu turno” con todo lo que importa del reparto.</p>
+      <ul class="pasos-lista">
+        <li><b>● Estás en la lista de reparto</b>: estás recibiendo leads. Debajo dice a qué hora exacta te registraste.</li>
+        <li><b>Tu puesto</b>: el lugar que ocupas en la fila del turno (el orden en que se registraron).</li>
+        <li><b>El reparto es equitativo</b>: cada lead va a quien <b>menos leads lleva hoy</b>. Si hay empate, al siguiente de la fila. Si te registras tarde, te llegan varios seguidos hasta que te emparejes con los demás.</li>
+        <li><b>Leads hoy</b>: cuántos llevas de tu cupo de <b>15</b>. Cuenta todo el día (AM y PM). Al llegar a 15, la hoja te saca del reparto hasta mañana.</li>
+        <li><span class="chip">Salir del turno</span>: úsalo si terminas antes. Los leads que ya tienes no cambian.</li>
+      </ul>
+      <div class="ojo">Si ves un aviso rojo <b>“No estás en la lista de reparto”</b> quiere decir que el panel te tiene en el turno pero la hoja no. Pulsa <span class="chip">Volver a anotarme en la hoja</span>. Si sigue igual, avisa a tu líder.</div>
+    </div>
+    <figure class="captura">
+      <div class="solo-tel"><button type="button" class="boton-zoom" aria-label="Ver en grande: tarjeta Tu turno (teléfono)"><div class="telefono"><img src="guia/03-tu-turno.jpg" alt="Tarjeta Tu turno con Estás en la lista de reparto, la hora del registro, tu puesto y los leads de hoy" loading="lazy" width="405" height="831"></div></button><figcaption>Tu turno, tu puesto y tu cupo</figcaption></div>
+      <div class="solo-lap"><button type="button" class="boton-zoom" aria-label="Ver en grande: inicio con tu turno (laptop)"><div class="laptop"><div class="pantalla"><img src="guia/lap-03-inicio-turno.jpg" alt="Inicio en laptop con la tarjeta Tu turno a la derecha y los leads a la izquierda" loading="lazy" width="1280" height="800"></div><div class="base" aria-hidden="true"></div></div></button><figcaption>Tu turno, tu puesto y tu cupo</figcaption></div>
+    </figure>
+  </section>
+
+  <!-- 4 -->
+  <section class="paso aparece" id="atiende" aria-labelledby="t4">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">4</span><h2 id="t4">“Atiende ahora”</h2></div>
+      <p class="resumen">Tus leads, ordenados por urgencia. Empieza siempre por el de arriba.</p>
+      <ul class="pasos-lista">
+        <li>Cada tarjeta muestra en grande <b>el equipo que busca el cliente</b> (por ejemplo <b>Lenovo 11E</b>). Si no lo dijo, sale <b>Venta</b> o <b>Consulta directa</b>. Debajo ves la hora, el cliente, si lo quiere nuevo o refurbished y para qué lo quiere.</li>
+        <li>La franja de color del borde te dice cómo va: <b>roja</b> lleva 15 minutos o más sin contactar.</li>
+        <li>Cuando te llega un lead nuevo <b>suena un aviso de tres notas</b> y aparece arriba solo, sin recargar.</li>
+        <li><span class="solo-tel">Toca</span><span class="solo-lap">Haz clic en</span> la tarjeta para abrir el lead.</li>
+      </ul>
+      <div class="tip"><b>La meta</b>Contactar cada lead antes de <b>15 minutos</b>. Ese tiempo se mide desde que te llega hasta que subes el comprobante del primer contacto.</div>
+      <div class="regla"><b>Regla de los 25 minutos</b>A los <b>15 minutos</b> sin la captura del primer contacto sale un aviso en el grupo de WhatsApp con tu nombre. A los <b>25 minutos</b> sin captura, el lead pasa automáticamente a otro asesor y desaparece de tu panel. Ese lead <b>sigue contando en tu cupo del día</b>, así que súbela siempre a tiempo.</div>
+    </div>
+    <figure class="captura">
+      <div class="solo-tel"><button type="button" class="boton-zoom" aria-label="Ver en grande: lista Atiende ahora (teléfono)"><div class="telefono"><img src="guia/04-atiende-ahora.jpg" alt="Lista Atiende ahora con los leads ordenados por urgencia: el equipo en grande, el cliente y el tiempo sin contactar" loading="lazy" width="405" height="831"></div></button><figcaption>Primero el más urgente</figcaption></div>
+      <div class="solo-lap"><button type="button" class="boton-zoom" aria-label="Ver en grande: inicio con Atiende ahora (laptop)"><div class="laptop"><div class="pantalla"><img src="guia/lap-03-inicio-turno.jpg" alt="Inicio en laptop con la lista Atiende ahora" loading="lazy" width="1280" height="800"></div><div class="base" aria-hidden="true"></div></div></button><figcaption>Primero el más urgente</figcaption></div>
+    </figure>
+  </section>
+
+  <!-- 5 -->
+  <section class="paso aparece" id="lead" aria-labelledby="t5">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">5</span><h2 id="t5">Trabaja el lead</h2></div>
+      <p class="resumen">Al abrir un lead tienes todo a mano: lo que busca el cliente, su contacto y el estado.</p>
+      <ol class="pasos-lista">
+        <li><span class="chip">Abrir WhatsApp</span> abre el chat con el cliente. <span class="chip">Copiar número</span> lo copia con su prefijo (+58).</li>
+        <li>Revisa lo que llenó: <b>tipo</b>, <b>nuevo o refurbished</b>, <b>uso o problema</b>, <b>marca y modelo</b> y <b>observaciones</b>. Lo que diga “No indicado” no se muestra.</li>
+        <li>El estado avanza así: <b>Nuevo → Contactado → Venta cerrada</b>. <b>Contactado</b> se pone solo cuando subes la captura del primer contacto (paso 6): mientras no la subas, Contactado y Venta cerrada salen con 🔒.</li>
+        <li>Si el cliente no compra, usa <span class="chip">Marcar como perdido</span> y elige el motivo.</li>
+        <li>Si quedaste en escribirle después, usa <span class="chip">Programar seguimiento</span>: el panel te avisa a esa hora.</li>
+      </ol>
+      <div class="estados">
+        <div class="estado"><b>Nuevo</b>Te acaba de llegar.</div>
+        <div class="estado"><b>Contactado</b>Ya hablaste con el cliente.</div>
+        <div class="estado"><b>Venta cerrada</b>¡Compró!</div>
+        <div class="estado"><b>Perdido</b>No compró o no le interesa.</div>
+        <div class="estado"><b>Erróneo</b>El lead no sirve (paso 7).</div>
+      </div>
+      <div class="tip"><b>Asistente</b>El botón rojo con la estrella (<b>Asistente de leads</b>) te guía si no sabes qué hacer con un lead: no contesta, ya compró, número malo…</div>
+    </div>
+    <figure class="captura">
+      <div class="solo-tel"><button type="button" class="boton-zoom" aria-label="Ver en grande: un lead abierto (teléfono)"><div class="telefono"><img src="guia/05-lead.jpg" alt="Lead abierto con el equipo, el cliente, los botones de WhatsApp y los datos del formulario" loading="lazy" width="405" height="831"></div></button><figcaption>Un lead abierto</figcaption></div>
+      <div class="solo-lap"><button type="button" class="boton-zoom" aria-label="Ver en grande: un lead abierto (laptop)"><div class="laptop"><div class="pantalla"><img src="guia/lap-05-lead.jpg" alt="Lead abierto en laptop" loading="lazy" width="1280" height="800"></div><div class="base" aria-hidden="true"></div></div></button><figcaption>Un lead abierto</figcaption></div>
+    </figure>
+  </section>
+
+  <!-- 6 -->
+  <section class="paso aparece" id="comprobante" aria-labelledby="t6">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">6</span><h2 id="t6">Sube el comprobante de contacto</h2></div>
+      <p class="resumen">Es <b>obligatorio</b>: es la prueba de que de verdad contactaste al cliente. Sin él el lead no puede pasar a Contactado ni a Venta cerrada, y sigue contando como “sin contactar”.</p>
+      <ol class="pasos-lista">
+        <li>Escríbele al cliente por WhatsApp (o llámalo).</li>
+        <li>Haz una captura de pantalla del chat o de la llamada.</li>
+        <li>En el lead, en “Sube la captura del primer contacto”, pulsa <span class="chip">Elegir captura</span>. En computadora también puedes arrastrarla o pegarla con <b>Ctrl+V</b>.</li>
+        <li>Listo: el lead pasa a <b>Contactado</b> y queda guardada la hora de tu primer contacto.</li>
+      </ol>
+      <div class="regla"><b>No lo dejes para después</b>Sube la captura apenas contactes al cliente: si pasan 25 minutos sin ella, el lead se reasigna a otro asesor.</div>
+      <div class="ojo"><b>Importante</b>Si el lead no sirve (número que no existe, repetido…), repórtalo como erróneo <b>antes</b> de subir el comprobante. Después de contactarlo solo se puede reportar si el cliente dice que <b>ya no le interesa</b>.</div>
+    </div>
+    <figure class="captura">
+      <div class="solo-tel"><button type="button" class="boton-zoom" aria-label="Ver en grande: captura del primer contacto (teléfono)"><div class="telefono"><img src="guia/06-comprobante.jpg" alt="Zona para subir la captura del primer contacto dentro del lead" loading="lazy" width="405" height="831"></div></button><figcaption>La captura del primer contacto</figcaption></div>
+      <div class="solo-lap"><button type="button" class="boton-zoom" aria-label="Ver en grande: captura del primer contacto (laptop)"><div class="laptop"><div class="pantalla"><img src="guia/lap-06-comprobante.jpg" alt="Zona para subir la captura del primer contacto en laptop" loading="lazy" width="1280" height="800"></div><div class="base" aria-hidden="true"></div></div></button><figcaption>La captura del primer contacto</figcaption></div>
+    </figure>
+  </section>
+
+  <!-- 7 -->
+  <section class="paso aparece" id="erroneo" aria-labelledby="t7">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">7</span><h2 id="t7">Reporta un lead erróneo</h2></div>
+      <p class="resumen">Si un lead no sirve, lo reportas y el sistema te devuelve el cupo: tu próximo lead es la reposición.</p>
+      <ol class="pasos-lista">
+        <li>En el lead pulsa <span class="chip">Reportar como erróneo</span>.</li>
+        <li>Elige el motivo y cuenta en una frase qué pasó. Sé concreto.</li>
+        <li>Adjunta la captura que lo demuestra: el aviso de WhatsApp, la llamada fallida o la respuesta del cliente. Que se vea el número o el nombre del cliente.</li>
+        <li>Si está encendida la <b>revisión con IA</b>, pulsa <span class="chip">Revisar la captura</span> y en unos segundos la IA responde:
+          <br><span class="chip verde">✓ La IA aprueba el reporte</span> → pulsa <b>Confirmar y enviar</b>. En menos de un minuto tienes tu cupo de vuelta.
+          <br><span class="chip rojo">La IA no aprueba el reporte</span> → no se envía. Te dice qué falta; si tienes otra captura, cámbiala y se revisa otra vez.
+          <br>Si la revisión con IA está apagada, el reporte se envía directo y lo revisa tu líder.
+        </li>
+      </ol>
+      <div class="tabla-si-no">
+        <div class="si"><h3>Sí es erróneo</h3><ul>
+            <li>El número no existe, no tiene WhatsApp o no es un número válido.</li>
+            <li>El lead llegó sin teléfono.</li>
+            <li>El número es de otra persona o de un negocio.</li>
+            <li>El cliente dice que no pidió información, o que <b>no le interesa / ya no va a comprar nada</b>.</li>
+            <li>Es un lead repetido o ya era cliente.</li>
+            <li>Es de otra tienda.</li>
+            <li>Datos falsos o de prueba.</li>
+          </ul>
+        </div>
+        <div class="no"><h3>No es erróneo (es perdido o seguimiento)</h3><ul>
+            <li>El cliente no contesta, aunque haya pasado tiempo.</li>
+            <li>Mensajes con uno o dos checks sin respuesta, o “visto”.</li>
+            <li>“Está caro”, “ahora no”, “lo pienso”, “estoy esperando cobrar”: es seguimiento.</li>
+            <li>“Ya compré en otra tienda”.</li>
+            <li>“No tienen el modelo que busco”: es perdido.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="tip"><b>Tu límite</b>Hay un máximo de reportes por día. En la sección <b>“Leads erróneos”</b> ves cuántos te quedan y cómo va cada reporte.</div>
+    </div>
+    <figure class="captura">
+      <div class="solo-tel"><button type="button" class="boton-zoom" aria-label="Ver en grande: reporte de lead erróneo aprobado por la IA (teléfono)"><div class="telefono"><img src="guia/07-erroneo-ia.jpg" alt="Formulario de lead erróneo con el motivo, la explicación, la captura y la respuesta La IA aprueba el reporte" loading="lazy" width="405" height="831"></div></button><figcaption>La IA aprobó el reporte</figcaption></div>
+      <div class="solo-lap"><button type="button" class="boton-zoom" aria-label="Ver en grande: reporte de lead erróneo aprobado por la IA (laptop)"><div class="laptop"><div class="pantalla"><img src="guia/lap-07-erroneo-ia.jpg" alt="Formulario de lead erróneo en laptop con la respuesta de la IA" loading="lazy" width="1280" height="800"></div><div class="base" aria-hidden="true"></div></div></button><figcaption>La IA aprobó el reporte</figcaption></div>
+    </figure>
+  </section>
+
+  <!-- 8 -->
+  <section class="paso aparece" id="mis-leads" aria-labelledby="t8">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">8</span><h2 id="t8">Mis leads e historial</h2></div>
+      <p class="resumen">En “Leads” (abajo, en el menú) ves todos tus leads, no solo los urgentes.</p>
+      <ul class="pasos-lista">
+        <li>Elige el <b>periodo</b>: hoy, 7, 30 o 90 días, todo el historial o las fechas que quieras.</li>
+        <li>Filtra por estado: Activos, De hoy, Nuevos, Contactados, Ventas, Perdidos y erróneos.</li>
+        <li>Cambia entre <b>Lista</b> y <b>Tablero</b> (una columna por estado).</li>
+        <li>Usa el buscador de arriba para encontrar un lead por <b>nombre, teléfono o equipo</b>.</li>
+      </ul>
+    </div>
+    <figure class="captura">
+      <div class="solo-tel"><button type="button" class="boton-zoom" aria-label="Ver en grande: mis leads (teléfono)"><div class="telefono"><img src="guia/08-mis-leads.jpg" alt="Sección Leads con el periodo, los filtros por estado y la lista de leads" loading="lazy" width="405" height="831"></div></button><figcaption>Tu historial con filtros</figcaption></div>
+      <div class="solo-lap"><button type="button" class="boton-zoom" aria-label="Ver en grande: mis leads (laptop)"><div class="laptop"><div class="pantalla"><img src="guia/lap-08-mis-leads.jpg" alt="Sección Leads en laptop" loading="lazy" width="1280" height="800"></div><div class="base" aria-hidden="true"></div></div></button><figcaption>Tu historial con filtros</figcaption></div>
+    </figure>
+  </section>
+
+  <!-- 9 -->
+  <section class="paso aparece" id="menu" aria-labelledby="t9">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">9</span><h2 id="t9">El menú</h2></div>
+      <p class="resumen"><span class="solo-tel">En el celular tienes una barra abajo y el botón <b>Más</b> abre el menú completo.</span><span class="solo-lap">En la laptop el menú está siempre a la izquierda, con la tarjeta de tu turno abajo.</span></p>
+      <ul class="pasos-lista">
+        <li><b>Inicio</b>: tu turno, lo urgente y tu cupo de erróneos.</li>
+        <li><b>Leads</b>: todos tus leads y el historial.</li>
+        <li><b>Seguimiento</b>: los clientes a los que quedaste en escribir, con la hora.</li>
+        <li><b>Erróneos</b>: tus reportes y cuántos te quedan.</li>
+        <li><b>Más</b>: abre el menú completo y la tarjeta de tu turno.</li>
+      </ul>
+      <div class="tip">Arriba a la derecha tienes el botón de <b>modo claro / oscuro</b> y, para salir, el de la flecha junto a tus iniciales.</div>
+    </div>
+    <figure class="captura">
+      <div class="solo-tel"><button type="button" class="boton-zoom" aria-label="Ver en grande: el menú (teléfono)"><div class="telefono"><img src="guia/10-menu.jpg" alt="Menú lateral abierto con Inicio, Mis leads, Seguimiento y Leads erróneos, y la tarjeta Recibiendo leads abajo" loading="lazy" width="405" height="831"></div></button><figcaption>El menú lateral</figcaption></div>
+      <div class="solo-lap"><button type="button" class="boton-zoom" aria-label="Ver en grande: el menú (laptop)"><div class="laptop"><div class="pantalla"><img src="guia/lap-03-inicio-turno.jpg" alt="Panel en laptop con el menú a la izquierda" loading="lazy" width="1280" height="800"></div><div class="base" aria-hidden="true"></div></div></button><figcaption>El menú lateral</figcaption></div>
+    </figure>
+  </section>
+
+  <h2 class="titulo-seccion" id="preguntas">Preguntas frecuentes</h2>
+  <div class="faq aparece">
+    <details><summary>Me registré pero no me llegan leads</summary><p>Revisa en “Tu turno” que diga “Estás en la lista de reparto”. Si sale el aviso rojo, pulsa “Volver a anotarme en la hoja”. También puede que tu líder haya pausado el reparto o que ya hayas completado tu cupo de 15 leads del día.</p></details>
+    <details><summary>Dice “Cupo completo”</summary><p>Ya recibiste los 15 leads que te tocan hoy. La hoja te saca del reparto a propósito: no es un error. Mañana te vuelves a registrar.</p></details>
+    <details><summary>No me sale el botón para registrarme</summary><p>Puede ser que no tengas la tienda asignada (avísale a tu líder) o que el registro esté cerrado: abre a las 6:30, cierra de 17:00 a 17:50 y otra vez después de las 23:00.</p></details>
+    <details><summary>¿Por qué el lead le llegó a otro y no a mí?</summary><p>El reparto es equitativo: cada lead va a quien menos leads lleva hoy. Si llevas más que otros, primero les toca a ellos. También se salta a quien completó su cupo o perdió ese lead por no contactarlo a tiempo.</p></details>
+    <details><summary>Me quitaron un lead, ¿por qué?</summary><p>Pasaron 25 minutos sin que subieras la captura del primer contacto, así que el sistema se lo dio a otro asesor (a los 15 minutos sale el aviso en el grupo de WhatsApp). Ese lead sigue contando en tu cupo del día.</p></details>
+    <details><summary>La IA no aprobó mi reporte y yo creo que sí es erróneo</summary><p>Lee lo que te dice: casi siempre falta que se vea el número o el nombre del cliente, o la prueba no es clara. Cambia la captura por una mejor y se revisa otra vez. Si aun así no pasa, habla con tu líder.</p></details>
+    <details><summary>¿Puedo reportar un lead que ya contacté?</summary><p>Solo si el cliente te dijo que ya no le interesa o que no pidió nada (motivo “La persona no pidió información”). Para todo lo demás, repórtalo antes de subir el comprobante de contacto.</p></details>
+    <details><summary>¿Cómo programo un seguimiento?</summary><p>Abre el lead (ya contactado, con su captura) y toca <b>Programar seguimiento</b>. Elige el día y la hora (hora de Caracas) y, si quieres, escribe qué vas a hacer. El lead sale en la sección <b>Seguimiento</b> del menú y, cuando llega la hora, el panel te avisa. Allí puedes marcarlo como <b>Hecho</b> o pasarlo <b>A mañana</b>.</p></details>
+    <details><summary>¿Tengo que recargar la página?</summary><p>No. El panel se actualiza solo: los leads nuevos, los cambios de turno y las respuestas de la IA aparecen sin recargar.</p></details>
+  </div>
+
+  <h2 class="titulo-seccion" id="lideres">Para líderes y asignadores</h2>
+  <section class="paso sin-imagen lideres aparece" aria-labelledby="tL">
+    <div>
+      <div class="cab"><span class="num" aria-hidden="true">★</span><h2 id="tL">Lo que puedes hacer como asignador</h2></div>
+      <ol class="pasos-lista">
+        <li><b>Tu propio turno</b>: si también atiendes leads, márcate la tienda en <b>Asesores y tiendas</b> y regístrate desde Inicio como cualquier asesor.</li>
+        <li><b>Anotar a alguien en el turno</b>: en <b>Turnos y cupos</b>, pulsa <span class="chip">Anotar en el turno</span> y elige al asesor.</li>
+        <li><b>Sacar del turno</b>: en <b>Turnos y cupos</b>, botón <span class="chip">Sacar del turno</span> junto a cada persona.</li>
+        <li><b>Cuentas nuevas</b>: en <b>Asesores y tiendas</b> salen en “Esperan tienda”. Pulsa <span class="chip">Enviar a Alfa</span> para que puedan trabajar.</li>
+        <li><b>Bloquear o retirar</b>: en <b>Asesores y tiendas</b>. Retirar quita el acceso, la tienda y el turno, pero conserva sus leads. Úsalo para cuentas viejas o repetidas.</li>
+        <li><b>Nombrar líderes</b>: botón <span class="chip">Hacer asignador</span> en la fila de la persona. Tiene que cerrar sesión y volver a entrar.</li>
+        <li><b>Pausar el reparto</b>: en Inicio, “Reparto automático”, botón <span class="chip">Pausar</span>. La pausa dura hasta que alguien pulse <span class="chip">Reanudar</span>; los leads esperan en la hoja.</li>
+        <li><b>Leads erróneos</b>: en la bandeja revisas los reportes. Con la IA encendida, <span class="chip lima">Que la IA decida</span> aprueba o anula cada uno (uno o todos). La IA se enciende y se apaga en <b>Ajustes</b>.</li>
+        <li><b>Reasignaciones</b>: los leads que se movieron por no subir la captura en 25 minutos quedan en la pestaña <b>Reasignaciones</b> de la hoja.</li>
+        <li><b>Estadísticas</b>: contactados, tiempo al primer contacto, ventas y erróneos por asesor, por periodo.</li>
+        <li><b>No asignes a mano en la hoja</b>: se salta el reparto. Si hace falta, usa <span class="chip">Asignar un lead a mano</span> del panel.</li>
+      </ol>
+    </div>
+  </section>
+</main>
+
+<footer>Basik · Panel de ventas de Alfa · Guía de la versión 2</footer>
+
+<div class="visor" id="visor" role="dialog" aria-modal="true" aria-label="Captura en grande">
+  <img alt="" id="visorImg">
+  <button type="button" id="visorCerrar" aria-label="Cerrar">×</button>
+</div>
+<button type="button" class="arriba" id="arriba" aria-label="Volver arriba">↑</button>
+
+<script>
+(function () {
+  // Barra de progreso y botón de volver arriba
+  const prog = document.getElementById('progreso'), arriba = document.getElementById('arriba');
+  function alDesplazar() {
+    const max = document.documentElement.scrollHeight - innerHeight;
+    prog.style.transform = 'scaleX(' + (max > 0 ? Math.min(1, scrollY / max) : 0) + ')';
+    arriba.classList.toggle('visible', scrollY > 600);
+  }
+  addEventListener('scroll', alDesplazar, { passive: true }); alDesplazar();
+  arriba.addEventListener('click', () => scrollTo({ top: 0, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }));
+
+  // Teléfono / Laptop: se recuerda la elección; la primera vez se elige según el ancho de la pantalla.
+  const raiz = document.documentElement;
+  function ponerDisp(d) {
+    raiz.setAttribute('data-disp', d);
+    document.querySelectorAll('.disp button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.disp === d)));
+    try { localStorage.setItem('basik-guia-disp', d); } catch (e) {}
+  }
+  let guardado = null; try { guardado = localStorage.getItem('basik-guia-disp'); } catch (e) {}
+  ponerDisp(guardado === 'laptop' || guardado === 'telefono' ? guardado : (innerWidth >= 900 ? 'laptop' : 'telefono'));
+  document.querySelectorAll('.disp button').forEach(b => b.addEventListener('click', () => {
+    // Que la página no salte: se mantiene a la vista el mismo paso al cambiar el tamaño de las capturas.
+    const actual = pasoActual(); ponerDisp(b.dataset.disp);
+    if (actual) scrollTo({ top: actual.offsetTop - margenSuperior(), behavior: 'auto' });
+  }));
+
+  // Índice: lleva al paso aunque el navegador no haga el desplazamiento solo, y marca el paso en pantalla.
+  const enlaces = Array.from(document.querySelectorAll('.indice a'));
+  const secciones = enlaces.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
+  const listaIndice = document.querySelector('.indice ol');
+  const suave = () => matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+  function margenSuperior() { const i = document.querySelector('.indice'); return (i ? i.getBoundingClientRect().height : 0) + 96; }
+  enlaces.forEach(a => a.addEventListener('click', (e) => {
+    const destino = document.querySelector(a.getAttribute('href')); if (!destino) return;
+    e.preventDefault();
+    scrollTo({ top: destino.getBoundingClientRect().top + scrollY - margenSuperior() + 8, behavior: suave() });
+    try { history.replaceState(null, '', a.getAttribute('href')); } catch (er) {}
+  }));
+  function pasoActual() {
+    const linea = margenSuperior() + 20;
+    let actual = secciones[0];
+    secciones.forEach(s => { if (s.getBoundingClientRect().top <= linea) actual = s; });
+    return actual;
+  }
+  let pendiente = false, ultimo = null;
+  function marcarActivo() {
+    pendiente = false;
+    const s = pasoActual(); if (!s || s === ultimo) return; ultimo = s;
+    enlaces.forEach(a => a.setAttribute('aria-current', String(a.getAttribute('href') === '#' + s.id)));
+    const activo = enlaces.find(a => a.getAttribute('aria-current') === 'true');
+    // Solo se mueve la fila del índice (de lado); la página no se toca.
+    if (activo && listaIndice) {
+      const li = activo.getBoundingClientRect(), ol = listaIndice.getBoundingClientRect();
+      listaIndice.scrollTo({ left: listaIndice.scrollLeft + (li.left - ol.left) - (ol.width - li.width) / 2, behavior: 'auto' });
+    }
+  }
+  addEventListener('scroll', () => { if (!pendiente) { pendiente = true; requestAnimationFrame(marcarActivo); } }, { passive: true });
+  addEventListener('resize', () => { ultimo = null; marcarActivo(); });
+  marcarActivo();
+
+  // Ver la captura en grande
+  const visor = document.getElementById('visor'), visorImg = document.getElementById('visorImg'), cerrar = document.getElementById('visorCerrar');
+  let origen = null;
+  document.querySelectorAll('.boton-zoom').forEach(b => b.addEventListener('click', () => {
+    origen = b; const img = b.querySelector('img');
+    visorImg.src = img ? img.currentSrc || img.src : ''; visorImg.alt = img ? img.alt : '';
+    visor.classList.toggle('ancho', !!b.querySelector('.laptop'));
+    visor.classList.add('abierto'); raiz.style.overflow = 'hidden'; cerrar.focus();
+  }));
+  function cerrarVisor() { visor.classList.remove('abierto'); raiz.style.overflow = ''; if (origen) origen.focus({ preventScroll: true }); }
+  cerrar.addEventListener('click', cerrarVisor);
+  visor.addEventListener('click', (e) => { if (e.target === visor) cerrarVisor(); });
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && visor.classList.contains('abierto')) cerrarVisor(); });
+})();
+</script>
+</body>
+</html>
