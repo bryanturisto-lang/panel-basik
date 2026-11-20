@@ -438,6 +438,42 @@
     width: min(520px, 100%); max-height: calc(100vh - 40px); overflow-y: auto; background: var(--tinta);
     border: 1px solid var(--linea); border-radius: var(--r-l); padding: 22px; box-shadow: var(--sombra);
   }
+  .modal .caja.ancha { width: min(680px, 100%); }
+  /* ===================== CALIDAD DE LEADS ===================== */
+  .cal-item { border: 1px solid var(--linea); border-radius: var(--r-m); padding: 12px 14px 14px; margin: 0 0 12px; background: var(--superficie); }
+  .cal-item legend { font-size: 14px; padding: 0 6px; margin-left: -6px; }
+  .cal-item.falta { border-color: var(--coral); box-shadow: 0 0 0 3px color-mix(in srgb, var(--coral) 18%, transparent); }
+  .cal-opciones { display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 10px; }
+  .cal-op, .cal-chip { position: relative; display: inline-flex; }
+  .cal-op input, .cal-chip input { position: absolute; opacity: 0; inset: 0; margin: 0; cursor: pointer; }
+  .cal-op span { display: inline-block; padding: 7px 16px; border-radius: 999px; border: 1px solid var(--linea); font-weight: 600; font-size: 14px; cursor: pointer; }
+  .cal-chip span { display: inline-block; padding: 5px 12px; border-radius: 999px; border: 1px solid var(--linea); font-size: 13px; cursor: pointer; color: var(--niebla-2); }
+  .cal-op input:focus-visible + span, .cal-chip input:focus-visible + span { outline: 2px solid var(--violeta); outline-offset: 2px; }
+  .cal-op[data-c="buena"] input:checked + span { background: color-mix(in srgb, var(--menta) 18%, transparent); border-color: var(--menta); color: var(--menta); }
+  .cal-op[data-c="regular"] input:checked + span { background: color-mix(in srgb, var(--ambar) 18%, transparent); border-color: var(--ambar); color: var(--ambar); }
+  .cal-op[data-c="mala"] input:checked + span { background: color-mix(in srgb, var(--coral) 16%, transparent); border-color: var(--coral); color: var(--coral); }
+  .cal-chip input:checked + span { background: color-mix(in srgb, var(--violeta) 16%, transparent); border-color: var(--violeta); color: var(--niebla); }
+  .cal-chips { display: flex; gap: 6px; flex-wrap: wrap; margin: 4px 0 10px; }
+  .cal-extra { display: none; }
+  .cal-item[data-calidad="mala"] .cal-motivos, .cal-item[data-calidad="regular"] .cal-motivos,
+  .cal-item[data-calidad="buena"] .cal-interes, .cal-item[data-calidad="regular"] .cal-interes { display: block; }
+  .cal-et { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 9px; border-radius: 999px; }
+  .cal-et[data-c="buena"] { background: color-mix(in srgb, var(--menta) 18%, transparent); color: var(--menta); }
+  .cal-et[data-c="regular"] { background: color-mix(in srgb, var(--ambar) 18%, transparent); color: var(--ambar); }
+  .cal-et[data-c="mala"] { background: color-mix(in srgb, var(--coral) 16%, transparent); color: var(--coral); }
+  .cal-leyenda { display: flex; gap: 14px; flex-wrap: wrap; font-size: 12.5px; color: var(--niebla-2); margin-top: 10px; }
+  .cal-leyenda i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .cal-columnas { display: flex; gap: 6px; align-items: flex-end; height: 176px; overflow-x: auto; padding-bottom: 2px; }
+  .cal-col { flex: 1 0 26px; display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 26px; }
+  .cal-pila { width: 100%; max-width: 44px; display: flex; flex-direction: column-reverse; border-radius: 6px; overflow: hidden; background: var(--linea-suave); }
+  .cal-col small { font-size: 11px; color: var(--niebla-3); white-space: nowrap; }
+  .cal-b { background: var(--menta); } .cal-r { background: var(--ambar); } .cal-m { background: var(--coral); }
+  .cal-fila { display: grid; grid-template-columns: minmax(90px, 140px) minmax(0, 1fr) 72px; gap: 10px; align-items: center; font-size: 13.5px; margin-bottom: 8px; }
+  .cal-barra { display: flex; height: 14px; border-radius: 999px; overflow: hidden; background: var(--linea-suave); }
+  .cal-rejilla { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; margin-bottom: 18px; }
+  .cal-desc { border-top: 1px solid var(--linea-suave); padding: 12px 0; }
+  .cal-desc p { font-size: 14px; margin-top: 6px; white-space: pre-wrap; }
+  .cal-desc .meta { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; font-size: 13px; color: var(--niebla-3); }
   .modal .caja > h2 { margin-bottom: 6px; }
   .modal .caja > p { color: var(--niebla-2); margin-bottom: 16px; font-size: 14px; }
   .modal .botones { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
@@ -779,6 +815,7 @@
     <div class="segmentado" role="group" aria-label="Ruta" id="selRuta">
       <button type="button" data-ruta="TODAS" aria-pressed="true">Todas</button>
       <button type="button" data-ruta="ALFA" aria-pressed="false">Alfa</button>
+      <button type="button" data-ruta="INFOT" aria-pressed="false">Infot</button>
     </div>
     <form class="buscador" id="formBuscar" role="search">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
@@ -950,7 +987,8 @@
   ];
   const NOMBRE_ESTADO = { nuevo: 'Nuevo', contactado: 'Contactado', cotizado: 'Cotizado', seguimiento: 'En seguimiento', cerrado: 'Venta cerrada', perdido: 'Perdido', erroneo: 'Erróneo' };
   const ORDEN = { nuevo: 0, contactado: 1, cotizado: 2, seguimiento: 3, cerrado: 4 };
-  const RUTAS = { ALFA: 'Alfa' };
+  const RUTAS = { ALFA: 'Alfa', INFOT: 'Infot' };
+  const TIENDAS_CON_ERRONEOS = ['ALFA'];   // INFOT se suma cuando su Apps Script tenga leads erróneos (como ALFA 2.9)
   const MOTIVOS_LE = {
     numero_invalido: 'El número no existe o no tiene WhatsApp', no_solicito: 'Dice que no pidió información o que ya no le interesa',
     duplicado: 'Repetido o ya era cliente', otra_ruta: 'Es de otra tienda', datos_falsos: 'Datos falsos o de prueba', otro: 'Otro motivo'
@@ -970,7 +1008,8 @@
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRuc3F2b3NxaGluY3V6bGh3dmtyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODY1NDI4OTEsImV4cCI6MjEwMjExODg5MX0.P5AscsNpNIBeG0Uz7nlRFps3Wwzyr45bEPitozMl_WU';
   const FUNCION_IA_ERRONEOS = 'IA';   // función de la IA en el Supabase de Basik (se llama IA, en mayúscula)
   const APPS_SCRIPT = {
-    ALFA: 'https://script.google.com/macros/s/AKfycbyKb5wR8KLXNS5qz0hhwimVs2s9iYPEnVGsnJugCFILKXq-rmVYiZCjyk4TWwvOZKyjbQ/exec'
+    ALFA: 'https://script.google.com/macros/s/AKfycbyKb5wR8KLXNS5qz0hhwimVs2s9iYPEnVGsnJugCFILKXq-rmVYiZCjyk4TWwvOZKyjbQ/exec',
+    INFOT: 'https://script.google.com/macros/s/AKfycbwbHK7RgRfje22IBRHEVXA5u6oTBwlY6YPCmrSFeD8q3iV7W9SGZSYJM7EAVJZPGQnXdw/exec'
   };
   const DIAS_CARGADOS = 7;          // leads que se traen para las listas y las estadísticas de 7 días
   const COMPROBANTE_LADO_MAX = 420, COMPROBANTE_CALIDAD = 0.55, COMPROBANTE_MAX = 400 * 1024;
@@ -983,7 +1022,7 @@
     return Number((p.find(x => x.type === 'hour') || {}).value) % 24;
   }
   // Turnos (hora de Caracas), iguales a getTurno() del Apps Script de ALFA: AM de 6:30 a 17:00 y PM de 17:50 a 23:00.
-  const APERTURA_AM = { ALFA: 6 * 60 + 30 };
+  const APERTURA_AM = { ALFA: 6 * 60 + 30, INFOT: 9 * 60 };   // INFOT: AM desde las 9:00, igual que el panel v1
   const INICIO_PM = 17 * 60 + 50;
   const hhmm = (min) => Math.floor(min / 60) + ':' + String(min % 60).padStart(2, '0');
   // Cierre del turno AM por ruta y tiendas sin turno PM (hora de Caracas).
@@ -1145,8 +1184,8 @@
   }
 
   // ---- Imágenes ----
-  async function decodificarImagen(archivo) {
-    if (window.createImageBitmap) { try { return await createImageBitmap(archivo); } catch (e) { /* se prueba con <img> */ } }
+  async function decodificarImagen(archivo, sinBitmap) {
+    if (window.createImageBitmap && !sinBitmap) { try { return await createImageBitmap(archivo); } catch (e) { /* se prueba con <img> */ } }
     return await new Promise((ok, mal) => {
       const url = URL.createObjectURL(archivo); const img = new Image();
       img.onload = () => { URL.revokeObjectURL(url); ok(img); };
@@ -1154,30 +1193,51 @@
       img.src = url;
     });
   }
-  async function comprimirImagen(archivo, ladoMax = COMPROBANTE_LADO_MAX, calidad = COMPROBANTE_CALIDAD) {
-    let img;
-    try { img = await decodificarImagen(archivo); }
-    catch (e) {
-      if (/heic|heif/i.test(archivo.type || '') || /\.hei[cf]$/i.test(archivo.name || '')) throw new Error('La foto está en formato HEIC del iPhone, que este navegador no abre. Haz una captura de pantalla de esa foto y sube la captura.');
-      throw new Error('El archivo no se pudo abrir como imagen. Prueba con una captura de pantalla (PNG o JPG).');
+  // Algunos celulares/navegadores (ahorro de datos, protección de privacidad, poca memoria) dibujan la
+  // imagen EN BLANCO al achicarla: así llegaban comprobantes blancos y la IA rechazaba la captura.
+  // Por eso se revisa el resultado; si salió en blanco se prueba otra forma de abrirla y, si tampoco,
+  // se envía el archivo original (si no pesa demasiado).
+  function lienzoEnBlanco(lienzo) {
+    try {
+      const d = lienzo.getContext('2d').getImageData(0, 0, lienzo.width, lienzo.height).data;
+      const paso = Math.max(4, Math.floor(d.length / 4 / 4000) * 4);
+      for (let i = 0; i < d.length; i += paso) if (d[i] < 245 || d[i + 1] < 245 || d[i + 2] < 245) return false;
+      return true;
+    } catch (e) { return true; }   // el navegador no deja leer el dibujo: no se puede confiar en él
+  }
+  function leerOriginal(archivo) {
+    return new Promise((ok, mal) => { const r = new FileReader(); r.onload = () => ok(String(r.result)); r.onerror = () => mal(r.error); r.readAsDataURL(archivo); });
+  }
+  async function comprimirImagen(archivo, ladoMax = COMPROBANTE_LADO_MAX, calidad = COMPROBANTE_CALIDAD, maxOriginal = COMPROBANTE_MAX) {
+    for (const sinBitmap of [false, true]) {
+      let img;
+      try { img = await decodificarImagen(archivo, sinBitmap); }
+      catch (e) {
+        if (sinBitmap) break;
+        if (/heic|heif/i.test(archivo.type || '') || /\.hei[cf]$/i.test(archivo.name || '')) throw new Error('La foto está en formato HEIC del iPhone, que este navegador no abre. Haz una captura de pantalla de esa foto y sube la captura.');
+        throw new Error('El archivo no se pudo abrir como imagen. Prueba con una captura de pantalla (PNG o JPG).');
+      }
+      const ancho = img.width, alto = img.height;
+      if (!ancho || !alto) { if (img.close) img.close(); continue; }
+      const escala = Math.min(1, ladoMax / Math.max(ancho, alto));
+      const lienzo = document.createElement('canvas');
+      lienzo.width = Math.max(1, Math.round(ancho * escala)); lienzo.height = Math.max(1, Math.round(alto * escala));
+      const ctx = lienzo.getContext('2d');
+      ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, lienzo.width, lienzo.height);   // sin fondo, un PNG transparente queda negro
+      ctx.drawImage(img, 0, 0, lienzo.width, lienzo.height);
+      if (img.close) img.close();
+      if (!lienzoEnBlanco(lienzo)) return lienzo.toDataURL('image/jpeg', calidad);
     }
-    const ancho = img.width, alto = img.height;
-    if (!ancho || !alto) throw new Error('La imagen llegó vacía. Vuelve a hacer la captura.');
-    const escala = Math.min(1, ladoMax / Math.max(ancho, alto));
-    const lienzo = document.createElement('canvas');
-    lienzo.width = Math.max(1, Math.round(ancho * escala)); lienzo.height = Math.max(1, Math.round(alto * escala));
-    const ctx = lienzo.getContext('2d');
-    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, lienzo.width, lienzo.height);   // sin fondo, un PNG transparente queda negro
-    ctx.drawImage(img, 0, 0, lienzo.width, lienzo.height);
-    if (img.close) img.close();
-    return lienzo.toDataURL('image/jpeg', calidad);
+    // Las dos formas salieron en blanco: va el archivo tal cual.
+    if (/^image\/(jpeg|png|webp)$/.test(archivo.type || '') && archivo.size <= maxOriginal) return await leerOriginal(archivo);
+    throw new Error('Tu navegador entrega la imagen en blanco. Abre el panel en Google Chrome (sin modo ahorro de datos) y vuelve a subir la captura.');
   }
   // La captura de un lead erróneo va más grande: la lee la IA.
   async function comprimirEvidencia(archivo) {
     // 1568 px es lo más grande que la IA mira sin reducir: así lee mejor los textos chicos del chat.
-    let d = await comprimirImagen(archivo, 1568, 0.85);
-    if (d.length > 1400000) d = await comprimirImagen(archivo, 1400, 0.78);
-    if (d.length > 1400000) d = await comprimirImagen(archivo, 1100, 0.7);
+    let d = await comprimirImagen(archivo, 1568, 0.85, 1000000);
+    if (d.length > 1400000) d = await comprimirImagen(archivo, 1400, 0.78, 1000000);
+    if (d.length > 1400000) d = await comprimirImagen(archivo, 1100, 0.7, 1000000);
     return d;
   }
 
@@ -1196,6 +1256,7 @@
   datos = datosVacios();
   function guardar() { /* en la versión conectada todo se guarda en Supabase al momento */ }
   let haySeguimiento = false;       // la base ya tiene leads.seguimiento_en (SQL 07)
+  let hayCalidad = false;           // la base ya tiene la tabla calidad_leads (SQL de calidad)
 
   const COLUMNAS_LEADS = ['id, cliente, fecha, hora_asignacion, estado, asesor_id, ruta, tiene_comprobante, contactado_en, seguimiento_en, seguimiento_nota',
     'id, cliente, fecha, hora_asignacion, estado, asesor_id, ruta, tiene_comprobante, contactado_en',
@@ -1267,7 +1328,19 @@
     const aj = await sb.from('ajustes_leads_erroneos').select('*').eq('id', 1).maybeSingle();
     const a = (!aj.error && aj.data) || {};
 
+    // Calidad de leads: lo evaluado en los días cargados (el asesor, solo lo suyo).
+    let filasCal = [];
+    try {
+      filasCal = await traerTodasLasFilas(() => {
+        let q = sb.from('calidad_leads').select('*').gte('fecha', desde).in('ruta', rutasConsulta).order('id', { ascending: false });
+        if (!veTodoAhora) q = q.eq('asesor_id', miId);
+        return q;
+      });
+      hayCalidad = true;
+    } catch (e) { hayCalidad = false; console.warn('calidad_leads no disponible', e); }
+
     const nuevo = {
+      calidad: new Map(filasCal.map(f => [Number(f.lead_id), f])),
       usuarios: filasAsesores.map(f => usuarioDesdeFila(f, filasRutas, registros)),
       leads: filasLeads.map(leadDesdeFila),
       reportes: filasRep.map(reporteDesdeFila),
@@ -1535,6 +1608,7 @@
     erroneos: '<path d="M12 3 2 21h20z"/><path d="M12 10v5M12 18h.01"/>',
     equipo: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20c.8-3.6 3.4-5.5 6.5-5.5s5.7 1.9 6.5 5.5"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14.8c1.8.8 3 2.6 3.5 5.2"/>',
     estadisticas: '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    calidad: '<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>',
     asesores: '<circle cx="8" cy="8" r="3.2"/><path d="M2.8 19.5c.6-3 2.7-4.8 5.2-4.8 1.3 0 2.5.4 3.4 1.2"/><path d="M17.5 21s-4-3.6-4-6.7a4 4 0 0 1 8 0c0 3.1-4 6.7-4 6.7z"/><circle cx="17.5" cy="14.3" r="1.3"/>',
     ajustes: '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
     mas: '<circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/>'
@@ -1672,7 +1746,7 @@
         (sinRuta().length === 1 ? '1 asesor espera tienda' : sinRuta().length + ' asesores esperan tienda') + '</b>' +
         '<p>' + esc(sinRuta().map(x => x.nombre).join(', ')) + ' ya crearon su cuenta. Sin tienda no pueden trabajar.</p>' +
         '<a class="btn btn-chico" style="margin-top:10px" href="#/asesores">Asignar tiendas</a></div></div>' : '') +
-      ((rol === 'asesor' || (rol === 'asignador' && yo().rutas.length)) ? avisoTurnoHtml() : '') +
+      ((rol === 'asesor' || (rol === 'asignador' && yo().rutas.length)) ? avisoTurnoHtml() : '') + avisoCalidadHtml() +
       '<div class="cifras">' + cifras.map(c => '<div class="cifra"><span class="num">' + esc(c[0]) + '</span><span>' + esc(c[1]) + '</span></div>').join('') + '</div>' +
       '<div class="rejilla-inicio' + (rol === 'asesor' ? ' es-asesor' : '') + '"><section class="bloque" aria-labelledby="tAhora"><header><h2 id="tAhora">Atiende ahora</h2>' +
       '<div class="acciones"><a class="btn btn-sec btn-chico" href="#/leads">Ver todos</a></div></header>' +
@@ -1776,7 +1850,7 @@
   // Pausa del reparto automático: la guarda cada Apps Script (grupo TODOS de cada tienda).
   function pausaHtml() {
     return '<section class="bloque" aria-labelledby="tPausa"><header><h2 id="tPausa">Reparto automático</h2></header>' +
-      Object.keys(RUTAS).map(r => {
+      Object.keys(RUTAS).filter(r => !(pausa[r] && pausa[r].noDisponible)).map(r => {
         const p = pausa[r] || {};
         const estado = p.cargando ? 'Consultando…' : p.error ? 'No se pudo leer' : p.pausado ? (p.automatica ? 'Pausa automática' + (p.hasta ? ' hasta las ' + p.hasta : '') : 'En pausa') : p.pausado === false ? 'Repartiendo' : '—';
         return '<div class="linea-dato" style="align-items:center"><span><span class="punto ' + (p.pausado === false ? 'ok' : p.pausado ? 'alerta' : '') + '"></span> ' + esc(RUTAS[r]) + ' · <span class="tenue">' + estado + '</span></span>' +
@@ -1804,6 +1878,8 @@
   function rangoDe(f) {
     const hoy = hoyClave();
     if (f.sel === 'hoy') return { desde: hoy, hasta: hoy };
+    if (f.sel === 'ayer') { const a = fechaConDesfase(-1); return { desde: a, hasta: a }; }
+    if (f.sel === 'mes') return { desde: hoy.slice(0, 8) + '01', hasta: hoy };
     if (f.sel === 'todo') return { desde: PRIMER_DIA, hasta: hoy };
     if (f.sel === 'rango') { let d = f.desde || hoy, x = f.hasta || hoy; if (d > x) [d, x] = [x, d]; return { desde: d, hasta: x }; }
     return { desde: fechaConDesfase(-((Number(f.sel) || 7) - 1)), hasta: hoy };
@@ -1848,17 +1924,17 @@
     }
     repintar();
   }
-  function periodoHtml(f, cual) {
+  function periodoHtml(f, cual, opciones) {
     const r = rangoDe(f), hoy = hoyClave();
     return '<label class="sr" for="periodo-' + cual + '">Periodo</label><select class="entrada" id="periodo-' + cual + '" data-cambio="periodo" data-cual="' + cual + '">' +
-      OPCIONES_PERIODO.map(o => '<option value="' + o[0] + '"' + (f.sel === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') + '</select>' +
+      (opciones || OPCIONES_PERIODO).map(o => '<option value="' + o[0] + '"' + (f.sel === o[0] ? ' selected' : '') + '>' + o[1] + '</option>').join('') + '</select>' +
       (f.sel === 'rango' ? '<form class="rango-fechas" data-cual="' + cual + '" novalidate>' +
         '<label class="sr" for="desde-' + cual + '">Desde</label><input class="entrada" type="date" id="desde-' + cual + '" name="desde" value="' + esc(r.desde) + '" min="' + PRIMER_DIA + '" max="' + hoy + '">' +
         '<span class="tenue" aria-hidden="true">a</span>' +
         '<label class="sr" for="hasta-' + cual + '">Hasta</label><input class="entrada" type="date" id="hasta-' + cual + '" name="hasta" value="' + esc(r.hasta) + '" min="' + PRIMER_DIA + '" max="' + hoy + '">' +
         '<button type="submit" class="btn btn-sec btn-chico">Ver</button></form>' : '');
   }
-  const textoPeriodo = (f) => { const r = rangoDe(f); return f.sel === 'rango' ? (r.desde === r.hasta ? fmtDia(Date.parse(r.desde + 'T16:00:00Z')) : fmtDia(Date.parse(r.desde + 'T16:00:00Z')) + ' – ' + fmtDia(Date.parse(r.hasta + 'T16:00:00Z'))) : (OPCIONES_PERIODO.find(o => o[0] === f.sel) || [0, ''])[1]; };
+  const textoPeriodo = (f) => { const r = rangoDe(f); return f.sel === 'rango' ? (r.desde === r.hasta ? fmtDia(Date.parse(r.desde + 'T16:00:00Z')) : fmtDia(Date.parse(r.desde + 'T16:00:00Z')) + ' – ' + fmtDia(Date.parse(r.hasta + 'T16:00:00Z'))) : (OPCIONES_PERIODO.concat([['ayer', 'Ayer'], ['mes', 'Este mes']]).find(o => o[0] === f.sel) || [0, ''])[1]; };
 
   // ---------------- LEADS ----------------
   const filtrosLeads = { estado: 'activos', texto: '', asesor: '', vista: 'lista', periodo: { sel: '7', desde: '', hasta: '' }, mostrar: 60 };
@@ -2272,6 +2348,267 @@
       '</tbody></table></div>' : vacioHtml('Sin leads en este periodo', 'Prueba con otro periodo o con otra tienda.'));
   };
 
+  // ======================================================
+  // CALIDAD DE LEADS (18 nov 2026)
+  // Antes de cerrar su turno, cada asesor evalúa sus leads del día: Buena / Regular / Mala,
+  // motivo (si es regular o mala), interés y si pidió cotización (si es buena o regular) y una
+  // descripción escrita. Supervisión ve las gráficas en "Calidad de leads".
+  // Tablas calidad_leads y calidad_turnos (SQL de calidad). Sin ese SQL todo esto queda oculto.
+  // ======================================================
+  const CALIDAD_DESDE = Date.parse('2026-11-18T00:00:00-04:00');   // leads asignados antes no se piden
+  const CALIDADES = [['buena', 'Buena'], ['regular', 'Regular'], ['mala', 'Mala']];
+  const MOTIVOS_CALIDAD = [['no_contesta', 'No contesta'], ['curiosidad', 'Solo curiosidad'], ['fecha_lejana', 'Fecha muy lejana'],
+    ['presupuesto', 'Presupuesto bajo'], ['datos_incompletos', 'Datos incompletos'], ['otro', 'Otro']];
+  const INTERESES = [['alto', 'Alto'], ['medio', 'Medio'], ['bajo', 'Bajo']];
+  const NOMBRE_CALIDAD = Object.fromEntries(CALIDADES), NOMBRE_MOTIVO = Object.fromEntries(MOTIVOS_CALIDAD);
+  const MIN_DESCRIPCION = 10;
+  const CALIDAD_DIAS_ATRAS = 3;     // leads de más de 3 días ya no se piden (evita una lista eterna si se instala tarde)
+  const desdeCalidad = () => Math.max(CALIDAD_DESDE, Date.now() - CALIDAD_DIAS_ATRAS * DIA);
+  // Quién evalúa: asesores y asignadores que atienden leads (tienen ruta).
+  const evaluaLeads = () => !!miId && !!datos && (rol === 'asesor' || (rol === 'asignador' && yo().rutas.length > 0));
+  function pendientesCalidad(soloAnteriores) {
+    if (!hayCalidad || !evaluaLeads()) return [];
+    const hoy = hoyClave();
+    return datos.leads.filter(l => l.asesorId === miId && l.asignado >= desdeCalidad() && l.estado !== 'erroneo' &&
+      !datos.calidad.has(l.id) && (!soloAnteriores || fechaDe(l) < hoy)).sort((a, b) => a.asignado - b.asignado);
+  }
+  // Horas del aviso (minutos del día, Caracas): 30 min antes de que cierre el AM de cada tienda y a las 22:00 si tiene PM.
+  function avisosCalidad() {
+    const s = new Set();
+    yo().rutas.forEach(r => { s.add(cierreAm(r) - 30); if (tieneTurnoPm(r)) s.add(22 * 60); });
+    return [...s].sort((a, b) => a - b);
+  }
+  // Se llama cada 30 s: a la hora del aviso abre el formulario una vez (por aviso y por día).
+  function revisarAvisoCalidad() {
+    if (!evaluaLeads() || !hayCalidad || !pendientesCalidad().length) return;
+    if ($('#modal').classList.contains('abierto')) return;
+    const m = minutosCaracas();
+    const aviso = avisosCalidad().filter(a => m >= a && m < a + 120).pop();
+    if (aviso == null) return;
+    const clave = 'panel-calidad-aviso-' + miId + '-' + hoyClave() + '-' + aviso;
+    let ya = revisarAvisoCalidad.vistos.has(clave);
+    try { ya = ya || !!localStorage.getItem(clave); localStorage.setItem(clave, '1'); } catch (e) {}
+    revisarAvisoCalidad.vistos.add(clave);
+    if (ya) return;
+    abrirFormCalidad({ titulo: 'Antes de cerrar tu turno', motivo: 'Evalúa la calidad de los leads que atendiste hoy.' });
+  }
+  revisarAvisoCalidad.vistos = new Set();
+  // Aviso fijo en Inicio: desde la hora del primer aviso del día, o si quedaron leads de días anteriores sin evaluar.
+  function avisoCalidadHtml() {
+    if (!evaluaLeads() || !hayCalidad) return '';
+    const pend = pendientesCalidad(); if (!pend.length) return '';
+    const anteriores = pend.filter(l => fechaDe(l) < hoyClave()).length;
+    const primero = avisosCalidad()[0];
+    if (!anteriores && (primero == null || minutosCaracas() < primero)) return '';
+    return '<section class="turno-cta" aria-labelledby="tCal"><span class="punto alerta"></span><div class="texto"><b id="tCal">' +
+      (pend.length === 1 ? 'Te falta evaluar 1 lead' : 'Te faltan ' + pend.length + ' leads por evaluar') + '</b><p>' +
+      (anteriores ? 'Tienes leads de días anteriores sin evaluar: hasta que los evalúes no puedes registrarte en el turno. ' : '') +
+      'Cuéntanos cómo fue cada lead: calidad y una descripción corta. Así supervisión sabe qué leads están llegando.</p></div>' +
+      '<button type="button" class="btn btn-lima" data-accion="calidad-abrir">Evaluar mis leads</button></section>';
+  }
+
+  // ---- Formulario ----
+  const claveBorradorCal = () => 'panel-calidad-borrador-' + miId;
+  function leerBorradorCal() { try { return JSON.parse(localStorage.getItem(claveBorradorCal()) || '{}') || {}; } catch (e) { return {}; } }
+  function valoresItemCal(form, id) {
+    const n = 'c' + id, uno = (s) => (form.querySelector('input[name="' + n + s + '"]:checked') || {}).value || null;
+    return {
+      calidad: uno('_c'), interes: uno('_i'),
+      motivos: [...form.querySelectorAll('input[name="' + n + '_m"]:checked')].map(x => x.value),
+      cotizo: !!(form.querySelector('input[name="' + n + '_q"]:checked')),
+      descripcion: ((form.elements[n + '_d'] || {}).value || '').trim()
+    };
+  }
+  function guardarBorradorCal(form) {
+    const b = leerBorradorCal();
+    $$('.cal-item', form).forEach(fs => { b[fs.dataset.lead] = valoresItemCal(form, fs.dataset.lead); });
+    if (form.elements.comentarioTurno) b._comentario = form.elements.comentarioTurno.value;
+    try { localStorage.setItem(claveBorradorCal(), JSON.stringify(b)); } catch (e) {}
+  }
+  function itemCalidadHtml(l, v) {
+    const n = 'c' + l.id, cuando = esHoy(l.asignado) ? fmtHora(l.asignado) : fmtDia(l.asignado) + ' · ' + fmtHora(l.asignado);
+    const radio = (sufijo, valor, texto, marcado, clase) => '<label class="' + clase + '"' + (clase === 'cal-op' ? ' data-c="' + valor + '"' : '') + '><input type="radio" name="' + n + sufijo + '" value="' + valor + '"' + (marcado ? ' checked' : '') + '><span>' + texto + '</span></label>';
+    return '<fieldset class="cal-item" data-lead="' + l.id + '" data-calidad="' + esc(v.calidad || '') + '">' +
+      '<legend><b>' + esc(codigo(l.origen) + ' → ' + codigo(l.destino)) + '</b> · ' + esc(l.cliente) + ' <span class="muy-tenue">' + esc(cuando) + '</span></legend>' +
+      '<div class="cal-opciones" role="radiogroup" aria-label="Calidad de ' + esc(l.cliente) + '">' + CALIDADES.map(c => radio('_c', c[0], c[1], v.calidad === c[0], 'cal-op')).join('') + '</div>' +
+      '<div class="cal-extra cal-motivos"><span class="ayuda">¿Por qué? (marca uno o más)</span><div class="cal-chips">' +
+        MOTIVOS_CALIDAD.map(m => '<label class="cal-chip"><input type="checkbox" name="' + n + '_m" value="' + m[0] + '"' + ((v.motivos || []).includes(m[0]) ? ' checked' : '') + '><span>' + m[1] + '</span></label>').join('') + '</div></div>' +
+      '<div class="cal-extra cal-interes"><span class="ayuda">Interés del cliente</span><div class="cal-chips">' +
+        INTERESES.map(i => radio('_i', i[0], i[1], v.interes === i[0], 'cal-chip')).join('') +
+        '<label class="cal-chip"><input type="checkbox" name="' + n + '_q"' + (v.cotizo ? ' checked' : '') + '><span>Pidió cotización</span></label></div></div>' +
+      '<label class="campo"><span>Descripción del lead</span><textarea class="entrada" name="' + n + '_d" rows="2" maxlength="600" placeholder="Ej.: respondió rápido, tiene fechas claras y pidió cotización para 2 personas">' + esc(v.descripcion || '') + '</textarea></label>' +
+      '</fieldset>';
+  }
+  function filaCalAValores(f) { return f ? { calidad: f.calidad, motivos: f.motivos || [], interes: f.interes, cotizo: !!f.cotizo, descripcion: f.descripcion || '' } : {}; }
+  // o: { titulo, motivo, solo: [ids], despues: fn } — "despues" se llama cuando ya no queda nada pendiente.
+  function abrirFormCalidad(o) {
+    o = o || {};
+    if (!hayCalidad) { if (o.despues) o.despues(); return; }
+    const lista = (o.solo ? o.solo.map(leadPorId).filter(Boolean) : pendientesCalidad());
+    if (!lista.length) { if (o.despues) o.despues(); else avisar('No tienes leads por evaluar.'); return; }
+    const b = leerBorradorCal();
+    abrirModal('<form class="formulario" novalidate><h2 id="modalTitulo">' + esc(o.titulo || 'Calidad de tus leads') + '</h2>' +
+      '<p>' + esc(o.motivo || 'Evalúa cada lead: calidad y una descripción corta.') + ' ' + (lista.length === 1 ? '1 lead.' : lista.length + ' leads.') + '</p>' +
+      lista.map(l => itemCalidadHtml(l, b[l.id] || filaCalAValores(datos.calidad.get(l.id)))).join('') +
+      '<label class="campo"><span>Comentario del turno (opcional)</span><textarea class="entrada" name="comentarioTurno" rows="2" maxlength="600" placeholder="Algo que supervisión deba saber de los leads de hoy">' + esc(b._comentario || '') + '</textarea></label>' +
+      '<p class="error-campo oculto" role="alert"></p>' + botonesModal('Enviar evaluación') + '</form>', async (form) => {
+      const filas = [];
+      for (const l of lista) {
+        const v = valoresItemCal(form, l.id), fs = form.querySelector('.cal-item[data-lead="' + l.id + '"]');
+        const falta = !v.calidad ? 'Elige la calidad de ' + l.cliente + '.'
+          : v.calidad === 'mala' && !v.motivos.length ? 'Marca por qué el lead de ' + l.cliente + ' es malo.'
+          : v.descripcion.length < MIN_DESCRIPCION ? 'Escribe una descripción del lead de ' + l.cliente + ' (mínimo ' + MIN_DESCRIPCION + ' letras).' : null;
+        if (falta) {
+          $$('.cal-item.falta', form).forEach(x => x.classList.remove('falta'));
+          fs.classList.add('falta'); fs.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          const p = $('.error-campo', form); if (p) { p.textContent = falta; p.classList.remove('oculto'); }
+          const foco = !v.calidad ? fs.querySelector('input[type=radio]') : v.calidad === 'mala' && !v.motivos.length ? fs.querySelector('.cal-motivos input') : fs.querySelector('textarea');
+          if (foco) foco.focus({ preventScroll: true });
+          return false;
+        }
+        filas.push({
+          lead_id: l.id, asesor_id: miId, ruta: l.ruta, fecha: fechaDe(l), calidad: v.calidad,
+          motivos: v.calidad === 'buena' ? [] : v.motivos, interes: v.calidad === 'mala' ? null : v.interes,
+          cotizo: v.calidad === 'mala' ? false : v.cotizo, descripcion: v.descripcion.slice(0, 600),
+          hora_lead: new Date(l.asignado).toISOString(), cliente: l.cliente, origen: l.origen || null, destino: l.destino || null
+        });
+      }
+      const { data, error } = await sb.from('calidad_leads').upsert(filas, { onConflict: 'lead_id' }).select('lead_id');
+      if (error) throw error;
+      if (!data || data.length < filas.length) throw new Error('Supabase no guardó todas las evaluaciones: falta correr el SQL de calidad o el lead ya no es tuyo.');
+      const comentario = (form.elements.comentarioTurno.value || '').trim();
+      if (comentario) {
+        const t = turnoActual() || (minutosCaracas() >= 17 * 60 ? 'PM' : 'AM');
+        const r = await sb.from('calidad_turnos').upsert({ asesor_id: miId, fecha: hoyClave(), turno: t, comentario: comentario.slice(0, 600) }, { onConflict: 'asesor_id,fecha,turno' }).select('id');
+        if (r.error) console.warn('calidad_turnos', r.error);
+      }
+      filas.forEach(f => datos.calidad.set(f.lead_id, Object.assign({ creado_en: new Date().toISOString() }, f)));
+      try { localStorage.removeItem(claveBorradorCal()); } catch (e) {}
+      avisar(filas.length === 1 ? 'Evaluación guardada.' : 'Guardadas las ' + filas.length + ' evaluaciones.');
+      if (o.despues && !pendientesCalidad(o.soloAnteriores).length) setTimeout(o.despues, 50);
+      recargar(300);
+    });
+    $('#modalCaja').classList.add('ancha');
+  }
+
+  // ---- Supervisión: sección "Calidad de leads" ----
+  const OPCIONES_PERIODO_CAL = [['hoy', 'Hoy'], ['ayer', 'Ayer'], ['7', 'Últimos 7 días'], ['mes', 'Este mes'], ['30', 'Últimos 30 días'], ['90', 'Últimos 90 días'], ['rango', 'Elegir fechas…']];
+  const filtrosCal = { sel: '7', desde: '', hasta: '', asesor: '', calidad: '', mostrar: 30 };
+  const calPeriodos = {};            // "desde|hasta" -> { ts, filas } | { cargando } | { error }
+  function calidadDelRango(r) {
+    if (r.desde >= fechaConDesfase(-(DIAS_CARGADOS - 1))) return { filas: [...datos.calidad.values()].filter(f => f.fecha >= r.desde && f.fecha <= r.hasta) };
+    const k = r.desde + '|' + r.hasta, p = calPeriodos[k];
+    if (p && p.filas) { if (!p.cargando && Date.now() - p.ts > 10 * MIN) cargarCalidadRango(r, k); return { filas: p.filas }; }
+    if (p && p.error) return { error: p.error };
+    if (!p) cargarCalidadRango(r, k);
+    return { cargando: true };
+  }
+  async function cargarCalidadRango(r, k) {
+    const previo = calPeriodos[k]; calPeriodos[k] = Object.assign({}, previo, { cargando: true });
+    const yoId = miId;
+    try {
+      const filas = await traerTodasLasFilas(() => sb.from('calidad_leads').select('*').gte('fecha', r.desde).lte('fecha', r.hasta).in('ruta', Object.keys(RUTAS)).order('id', { ascending: false }), 40000);
+      if (miId !== yoId) return;
+      calPeriodos[k] = { ts: Date.now(), filas };
+    } catch (e) {
+      if (miId !== yoId) return;
+      calPeriodos[k] = previo && previo.filas ? previo : { error: mensajeError(e) };
+    }
+    repintar();
+  }
+  const pct = (n, t) => t ? Math.round(n / t * 100) : 0;
+  const contarCal = (fs) => ({ b: fs.filter(f => f.calidad === 'buena').length, r: fs.filter(f => f.calidad === 'regular').length, m: fs.filter(f => f.calidad === 'mala').length, t: fs.length });
+  function columnasCalHtml(grupos, titulo) {
+    const max = Math.max(1, ...grupos.map(g => g.c.t));
+    return '<div class="cal-columnas" role="img" aria-label="' + esc(titulo) + '">' + grupos.map(g => {
+      const h = (n) => (n / max * 120).toFixed(1) + 'px';
+      return '<div class="cal-col" title="' + esc(g.nombre + ': ' + g.c.b + ' buenas, ' + g.c.r + ' regulares, ' + g.c.m + ' malas') + '"><span class="muy-tenue num" style="font-size:11px">' + (g.c.t || '') + '</span>' +
+        '<div class="cal-pila" style="height:' + (g.c.t ? h(g.c.t) : '3px') + '"><i class="cal-b" style="height:' + h(g.c.b) + '"></i><i class="cal-r" style="height:' + h(g.c.r) + '"></i><i class="cal-m" style="height:' + h(g.c.m) + '"></i></div>' +
+        '<small>' + esc(g.nombre) + '</small></div>';
+    }).join('') + '</div>' +
+      '<div class="cal-leyenda" aria-hidden="true"><span><i class="cal-b"></i>Buena</span><span><i class="cal-r"></i>Regular</span><span><i class="cal-m"></i>Mala</span></div>';
+  }
+  function barraCalHtml(nombre, c) {
+    return '<div class="cal-fila"><span>' + esc(nombre) + '</span><span class="cal-barra" role="img" aria-label="' + esc(nombre + ': ' + pct(c.b, c.t) + '% buenas, ' + pct(c.r, c.t) + '% regulares, ' + pct(c.m, c.t) + '% malas') + '">' +
+      '<i class="cal-b" style="width:' + pct(c.b, c.t) + '%"></i><i class="cal-r" style="width:' + pct(c.r, c.t) + '%"></i><i class="cal-m" style="width:' + pct(c.m, c.t) + '%"></i></span>' +
+      '<span class="num muy-tenue" style="text-align:right">' + c.t + ' leads</span></div>';
+  }
+  VISTAS.calidad = function () {
+    const r = rangoDe(filtrosCal);
+    const cab = '<div class="cabeza"><div><h1>Calidad de leads</h1><p class="sub">Lo que evaluaron los asesores al cerrar su turno: calidad, motivo y una descripción de cada lead.</p></div></div>';
+    if (!hayCalidad) return cab + vacioHtml('Falta activar la calidad de leads', 'Corre el SQL de calidad en Supabase para empezar a guardar las evaluaciones.');
+    const cal = calidadDelRango(r), lds = leadsDelRango(r);
+    const herramientas = '<div class="herramientas">' + periodoHtml(filtrosCal, 'cal', OPCIONES_PERIODO_CAL) +
+      '<label class="sr" for="calAsesor">Asesor</label><select class="entrada" id="calAsesor" data-cambio="cal-asesor"><option value="">Todos los asesores</option>' +
+      todosLosAsesores().filter(u => rutaFiltro === 'TODAS' || u.rutas.includes(rutaFiltro)).map(u => '<option value="' + u.id + '"' + (filtrosCal.asesor === u.id ? ' selected' : '') + '>' + esc(u.nombre) + '</option>').join('') + '</select></div>';
+    if (!cal.filas || !lds.leads) {
+      const err = cal.error || lds.error;
+      return cab + herramientas + (err ? vacioHtml('No se pudo cargar el periodo', err) : '<div class="vacio cargando" role="status"><b>Cargando ' + esc(textoPeriodo(filtrosCal).toLowerCase()) + '…</b></div>');
+    }
+    const pasa = (ruta, asesor) => (rutaFiltro === 'TODAS' || ruta === rutaFiltro) && (!filtrosCal.asesor || asesor === filtrosCal.asesor);
+    const filas = cal.filas.filter(f => pasa(f.ruta, f.asesor_id));
+    const recibidos = lds.leads.filter(l => pasa(l.ruta, l.asesorId) && l.estado !== 'erroneo' && l.asignado >= CALIDAD_DESDE);
+    const c = contarCal(filas), cot = filas.filter(f => f.cotizo).length;
+    const cifras = '<div class="cifras"><div class="cifra"><span class="num" style="color:var(--menta)">' + pct(c.b, c.t) + ' %</span><span>leads buenos</span></div>' +
+      '<div class="cifra"><span class="num" style="color:var(--ambar)">' + pct(c.r, c.t) + ' %</span><span>regulares</span></div>' +
+      '<div class="cifra"><span class="num" style="color:var(--coral)">' + pct(c.m, c.t) + ' %</span><span>malos</span></div>' +
+      '<div class="cifra"><span class="num">' + c.t + ' de ' + Math.max(c.t, recibidos.length) + '</span><span>leads evaluados</span></div>' +
+      '<div class="cifra"><span class="num">' + pct(cot, c.t) + ' %</span><span>pidieron cotización</span></div></div>';
+    if (!c.t) return cab + herramientas + cifras + vacioHtml('Todavía no hay evaluaciones en este periodo', 'Los asesores evalúan sus leads al cerrar cada turno (4:30 pm y 10 pm; España 5:30 pm).');
+    // Por día (o por hora si el periodo es de un solo día)
+    let grupos, tituloTiempo;
+    if (r.desde === r.hasta) {
+      tituloTiempo = 'Calidad por hora de llegada';
+      const horas = {}; filas.forEach(f => { const h = f.hora_lead ? new Date(f.hora_lead).toLocaleTimeString('en-GB', { timeZone: ZONA, hour: '2-digit', hourCycle: 'h23' }) : '—'; (horas[h] = horas[h] || []).push(f); });
+      grupos = Object.keys(horas).sort().map(h => ({ nombre: h === '—' ? 'Sin hora' : h + ':00', c: contarCal(horas[h]) }));
+    } else {
+      tituloTiempo = 'Calidad por día';
+      const dias = []; for (let d = r.desde; d <= r.hasta && dias.length < 120; d = diaClave(Date.parse(d + 'T12:00:00Z') + DIA)) dias.push(d);
+      if (dias.length > 31) {   // periodos largos: por semana, para que la gráfica se pueda leer
+        tituloTiempo = 'Calidad por semana';
+        grupos = [];
+        for (let i = 0; i < dias.length; i += 7) { const sem = dias.slice(i, i + 7); grupos.push({ nombre: 'Sem. ' + fmtDia(Date.parse(sem[0] + 'T16:00:00Z')), c: contarCal(filas.filter(f => f.fecha >= sem[0] && f.fecha <= sem[sem.length - 1])) }); }
+      } else grupos = dias.map(d => ({ nombre: fmtDia(Date.parse(d + 'T16:00:00Z')), c: contarCal(filas.filter(f => f.fecha === d)) }));
+    }
+    // Motivos (de los regulares y malos)
+    const conMotivo = filas.filter(f => f.calidad !== 'buena');
+    const motivos = MOTIVOS_CALIDAD.map(m => ({ m: m[1], n: conMotivo.filter(f => (f.motivos || []).includes(m[0])).length })).filter(x => x.n).sort((a, b) => b.n - a.n);
+    const maxM = Math.max(1, ...motivos.map(x => x.n));
+    const bloqueMotivos = '<section class="bloque" aria-labelledby="tCalMot"><header><h2 id="tCalMot">Por qué son regulares o malos</h2></header>' +
+      (motivos.length ? motivos.map(x => '<div class="cal-fila"><span>' + esc(x.m) + '</span><span class="cal-barra"><i class="cal-m" style="width:' + (x.n / maxM * 100).toFixed(0) + '%"></i></span><span class="num muy-tenue" style="text-align:right">' + x.n + ' · ' + pct(x.n, conMotivo.length) + ' %</span></div>').join('')
+        : '<p class="tenue" style="font-size:14px">Todos los leads de este periodo fueron buenos.</p>') + '</section>';
+    // Por ruta, por hora (si es más de un día) y por asesor
+    const porRuta = Object.keys(RUTAS).map(k => ({ k, c: contarCal(filas.filter(f => f.ruta === k)) })).filter(x => x.c.t);
+    const horasTodas = {}; filas.forEach(f => { if (!f.hora_lead) return; const h = new Date(f.hora_lead).toLocaleTimeString('en-GB', { timeZone: ZONA, hour: '2-digit', hourCycle: 'h23' }); (horasTodas[h] = horasTodas[h] || []).push(f); });
+    const ids = [...new Set(filas.map(f => f.asesor_id).concat(recibidos.map(l => l.asesorId)))];
+    const porAsesor = ids.map(id => {
+      const fs = filas.filter(f => f.asesor_id === id), rec = recibidos.filter(l => l.asesorId === id).length;
+      return { u: usuario(id), c: contarCal(fs), rec: Math.max(rec, fs.length), cot: fs.filter(f => f.cotizo).length };
+    }).sort((a, b) => pct(b.c.t, b.rec) - pct(a.c.t, a.rec) || b.c.t - a.c.t);
+    // Descripciones
+    const lista = filas.filter(f => !filtrosCal.calidad || f.calidad === filtrosCal.calidad).sort((a, b) => String(b.creado_en || '').localeCompare(String(a.creado_en || '')));
+    const chipsCal = '<div class="segmentado" role="group" aria-label="Filtrar descripciones">' + [['', 'Todas'], ...CALIDADES].map(x => '<button type="button" data-accion="cal-filtro" data-valor="' + x[0] + '" aria-pressed="' + (filtrosCal.calidad === x[0]) + '">' + x[1] + '</button>').join('') + '</div>';
+    return cab + herramientas + cifras +
+      '<div class="cal-rejilla"><section class="bloque" aria-labelledby="tCalT"><header><h2 id="tCalT">' + tituloTiempo + '</h2></header>' + columnasCalHtml(grupos, tituloTiempo) + '</section>' + bloqueMotivos + '</div>' +
+      '<div class="cal-rejilla">' +
+        (porRuta.length > 1 ? '<section class="bloque" aria-labelledby="tCalR"><header><h2 id="tCalR">Por ruta</h2></header>' + porRuta.map(x => barraCalHtml(RUTAS[x.k], x.c)).join('') + '</section>' : '') +
+        (r.desde !== r.hasta && Object.keys(horasTodas).length ? '<section class="bloque" aria-labelledby="tCalH"><header><h2 id="tCalH">Por hora de llegada del lead</h2></header>' + columnasCalHtml(Object.keys(horasTodas).sort().map(h => ({ nombre: h + ':00', c: contarCal(horasTodas[h]) })), 'Calidad por hora de llegada') + '</section>' : '') +
+      '</div>' +
+      '<section class="bloque" style="margin-bottom:18px" aria-labelledby="tCalA"><header><h2 id="tCalA">Por asesor</h2><span class="muy-tenue" style="font-size:13px">Evaluados: leads que el asesor ya evaluó de los que recibió</span></header>' +
+      '<div class="tabla-marco"><table><caption class="sr">Calidad por asesor</caption><thead><tr><th>Asesor</th><th class="num">Evaluados</th><th class="num">Buena</th><th class="num">Regular</th><th class="num">Mala</th><th class="num">Pidieron cotización</th></tr></thead><tbody>' +
+      porAsesor.map(x => '<tr><td>' + esc(x.u.nombre) + '</td><td class="num"' + (x.c.t < x.rec ? ' style="color:var(--coral)"' : '') + '>' + x.c.t + ' de ' + x.rec + '</td><td class="num">' + pct(x.c.b, x.c.t) + ' %</td><td class="num">' + pct(x.c.r, x.c.t) + ' %</td><td class="num">' + pct(x.c.m, x.c.t) + ' %</td><td class="num">' + x.cot + '</td></tr>').join('') +
+      '</tbody></table></div></section>' +
+      '<section class="bloque" aria-labelledby="tCalD"><header><h2 id="tCalD">Descripciones de los asesores</h2>' + chipsCal + '</header>' +
+      (lista.length ? lista.slice(0, filtrosCal.mostrar).map(f => '<div class="cal-desc"><div class="meta"><span class="cal-et" data-c="' + esc(f.calidad) + '">' + esc(NOMBRE_CALIDAD[f.calidad] || f.calidad) + '</span>' +
+        '<b style="color:var(--niebla)">' + esc((f.origen || f.destino) ? codigo(f.origen) + ' → ' + codigo(f.destino) : RUTAS[f.ruta] || f.ruta) + '</b><span>' + esc(f.cliente || 'Lead ' + f.lead_id) + '</span><span>· ' + esc(usuario(f.asesor_id).nombre) + '</span>' +
+        '<span>· ' + esc(f.hora_lead ? fmtDia(Date.parse(f.hora_lead)) + ' ' + fmtHora(Date.parse(f.hora_lead)) : f.fecha) + '</span>' +
+        ((f.motivos || []).length ? '<span>· ' + esc(f.motivos.map(m => NOMBRE_MOTIVO[m] || m).join(', ')) + '</span>' : '') +
+        (f.interes ? '<span>· interés ' + esc(f.interes) + '</span>' : '') + (f.cotizo ? '<span>· pidió cotización</span>' : '') + '</div>' +
+        '<p>' + esc(f.descripcion) + '</p></div>').join('') +
+        (lista.length > filtrosCal.mostrar ? '<div style="margin-top:12px"><button type="button" class="btn btn-sec btn-chico" data-accion="cal-mas">Ver ' + Math.min(30, lista.length - filtrosCal.mostrar) + ' más</button></div>' : '')
+        : '<p class="tenue" style="font-size:14px">No hay descripciones con ese filtro.</p>') + '</section>';
+  };
+
   // ---------------- AJUSTES ----------------
   // Son las columnas de ajustes_leads_erroneos (fila 1): activo, limite_diario, exigir_captura y verificacion_ia.
   VISTAS.ajustes = function () {
@@ -2337,6 +2674,7 @@
 
     const fila = (k, v) => '<div class="linea-dato"><span class="tenue">' + k + '</span><span style="text-align:right">' + v + '</span></div>';
     const esMio = rol === 'asesor' && l.asesorId === yo().id;
+    const esMioCal = l.asesorId === miId && evaluaLeads();
     const cuerpo =
       (l.tipo ? fila('Tipo', esc(l.tipo)) : '') + (l.condicion ? fila('Nuevo o refurbished', esc(l.condicion)) : '') +
       (l.uso ? fila('Uso / problema', esc(l.uso)) : '') + (l.marca ? fila('Marca / modelo', esc(l.marca)) : '') +
@@ -2346,6 +2684,11 @@
       (l.proxima ? fila('Seguimiento', '<span' + (l.proxima.ts < Date.now() ? ' style="color:var(--coral)"' : '') + '>' + (esHoy(l.proxima.ts) ? 'hoy ' : fmtDia(l.proxima.ts) + ' ') + fmtHora(l.proxima.ts) + '</span> · ' + esc(l.proxima.accion) +
         (puedeEditar(l) ? ' <button type="button" class="btn btn-sec btn-chico" data-accion="hecho" data-id="' + l.id + '">Hecho</button>' : '')) : '') +
       fila('Comprobante de contacto', l.comprobante ? 'Subido · <button type="button" class="btn btn-sec btn-chico" data-accion="ver-comprobante">Ver</button>' : '<span class="muy-tenue">Sin subir</span>') +
+      (hayCalidad && datos.calidad.get(l.id) ? (() => { const q = datos.calidad.get(l.id); return fila('Calidad', '<span class="cal-et" data-c="' + esc(q.calidad) + '">' + esc(NOMBRE_CALIDAD[q.calidad] || q.calidad) + '</span>' +
+          (esMioCal ? ' <button type="button" class="btn btn-sec btn-chico" data-accion="calidad-lead" data-id="' + l.id + '">Cambiar</button>' : '')) +
+          '<p class="tenue" style="font-size:13.5px;margin:-4px 0 10px;white-space:pre-wrap">' + esc(q.descripcion || '') + '</p>'; })()
+        : hayCalidad && esMioCal && l.asignado >= CALIDAD_DESDE && l.estado !== 'erroneo'
+          ? fila('Calidad', '<span class="muy-tenue">Sin evaluar</span> <button type="button" class="btn btn-sec btn-chico" data-accion="calidad-lead" data-id="' + l.id + '">Evaluar</button>') : '') +
       ((esMio || rol === 'asignador') && !l.comprobante && !['erroneo', 'perdido'].includes(l.estado)
         ? '<div class="zona-archivos" id="zonaArchivos" style="margin-top:16px"><p><b>' + (esMio ? 'Sube la captura del primer contacto' : 'Sube la captura del primer contacto de ' + esc(usuario(l.asesorId).nombre)) + '</b></p><p class="ayuda" style="margin:4px 0 10px">Arrastra la imagen aquí, pégala con Ctrl+V o elígela. Con eso el lead queda como contactado y cuenta tu tiempo de respuesta.</p>' +
           '<button type="button" class="btn btn-sec btn-chico" data-accion="elegir-archivos">Elegir captura</button></div>' : '') +
@@ -2356,7 +2699,7 @@
     const yaReportado = reportesLead.some(r => r.estado !== 'anulado');
     // Mismas reglas que el panel actual: solo antes del contacto, sin reporte anulado y si los reportes están encendidos.
     const contactado = l.comprobante || l.contactadoEn || l.estado === 'contactado';
-    const puedeReportarLE = esMio && datos.ajustes.disponible && datos.ajustes.activo && !yaReportado && !reportesLead.some(r => r.estado === 'anulado') &&
+    const puedeReportarLE = TIENDAS_CON_ERRONEOS.includes(l.ruta) && esMio && datos.ajustes.disponible && datos.ajustes.activo && !yaReportado && !reportesLead.some(r => r.estado === 'anulado') &&
       !['cerrado', 'erroneo', 'perdido'].includes(l.estado);   // contactado: solo "ya no le interesa" (SQL 08)
 
     suave($('#cajon')).innerHTML =
@@ -2412,6 +2755,7 @@
   let focoAntesModal = null, alEnviarModal = null;
   function abrirModal(html, alEnviar) {
     focoAntesModal = document.activeElement;
+    $('#modalCaja').classList.remove('ancha');
     $('#modalCaja').innerHTML = html;
     alEnviarModal = alEnviar;
     $('#modal').classList.add('abierto');
@@ -2989,7 +3333,18 @@
       case 'cerrar-menu': $('#lateral').classList.remove('abierto'); $('#veloLateral').classList.remove('abierto'); break;
       case 'salir': cerrarSesion(); break;
       case 'tema': aplicarTema(document.documentElement.getAttribute('data-tema') === 'oscuro' ? 'claro' : 'oscuro', true); break;
+      // ---- calidad de leads ----
+      case 'calidad-abrir': abrirFormCalidad(); break;
+      case 'calidad-lead': cerrarCajon(); abrirFormCalidad({ solo: [b.dataset.id], titulo: 'Evaluar este lead' }); break;
+      case 'cal-filtro': filtrosCal.calidad = val || ''; filtrosCal.mostrar = 30; repintar(); break;
+      case 'cal-mas': filtrosCal.mostrar += 30; repintar(); break;
       case 'turno': {
+        // Antes de salir del turno hay que evaluar los leads del día.
+        if (miTurno() && pendientesCalidad().length) {
+          abrirFormCalidad({ titulo: 'Antes de salir del turno', motivo: 'Evalúa la calidad de los leads que atendiste hoy; después te sacamos del turno.',
+            despues: () => { const bt = document.querySelector('[data-accion="turno"]'); if (bt) bt.click(); } });
+          break;
+        }
         if (miTurno()) {
           abrirModal('<form class="formulario"><h2 id="modalTitulo">Salir del turno</h2><p>Te quitamos de la hoja de reparto de tus tiendas y dejas de recibir leads nuevos. Los que ya tienes no cambian.</p><p class="error-campo oculto" role="alert"></p>' + botonesModal('Salir del turno', true) + '</form>',
             async () => { await salirDelTurno(); avisar('Saliste del turno.'); });
@@ -3200,6 +3555,13 @@
   // ---- Turno: primero la hoja de reparto (Apps Script), después Supabase ----
   // La hoja decide a quién le llegan leads; registros_turno es el espejo que lee el panel.
   async function registrarseEnTurno(soloRutas) {
+    // Calidad de leads: no se entra a un turno nuevo con leads de días anteriores sin evaluar.
+    const sinEvaluar = pendientesCalidad(true);
+    if (sinEvaluar.length) {
+      abrirFormCalidad({ solo: sinEvaluar.map(l => l.id), soloAnteriores: true, titulo: 'Antes de registrarte',
+        motivo: 'Te quedaron leads de días anteriores sin evaluar. Evalúalos y te registramos en el turno.', despues: () => registrarseEnTurno(soloRutas) });
+      return;
+    }
     const u = yo(), t = turnoActual();
     if (!t) { avisar('El registro está cerrado ahora. ' + textoHorario(), 'err'); return; }
     const pendientes = rutasPorRegistrar(u, t).filter(r => !soloRutas || soloRutas.includes(r));
@@ -3325,7 +3687,7 @@
   async function consultarPausa() {
     if (rol !== 'asignador') return;
     await Promise.all(Object.keys(RUTAS).map(async (r) => {
-      try { const resp = await llamarAppsScript({ action: 'estadoPausa', grupo: 'TODOS' }, r); pausa[r] = estadoDePausa(resp); }
+      try { const resp = await llamarAppsScript({ action: 'estadoPausa', grupo: 'TODOS' }, r); pausa[r] = resp && resp.error && resp.pausado == null ? { noDisponible: true } : estadoDePausa(resp); }
       catch (e) { pausa[r] = { error: true }; }
     }));
     if (seccionActual() === 'inicio' && !$('#modal').classList.contains('abierto')) repintar();
@@ -3401,7 +3763,7 @@
     if (form.id === 'formAcceso') { e.preventDefault(); enviarAcceso(form); }
     if (form.classList.contains('rango-fechas')) {
       e.preventDefault();
-      const f = form.dataset.cual === 'leads' ? filtrosLeads.periodo : filtrosStats;
+      const f = form.dataset.cual === 'leads' ? filtrosLeads.periodo : form.dataset.cual === 'cal' ? filtrosCal : filtrosStats;
       const d = form.elements.desde.value, x = form.elements.hasta.value;
       if (!d || !x) { avisar('Elige las dos fechas.', 'err'); return; }
       f.desde = d; f.hasta = x; if (form.dataset.cual === 'leads') filtrosLeads.mostrar = 60;
@@ -3412,12 +3774,24 @@
   document.addEventListener('input', (e) => {
     if (e.target.id === 'buscarAsesor') { filtrosAsesores.texto = e.target.value; $('#listaAsesores').innerHTML = listaAsesoresHtml(); }
     if (e.target.getAttribute && e.target.getAttribute('aria-invalid') === 'true') e.target.removeAttribute('aria-invalid');
+    if (e.target.tagName === 'TEXTAREA' && e.target.closest('#modal') && (e.target.closest('.cal-item') || e.target.name === 'comentarioTurno')) {
+      const fs = e.target.closest('.cal-item'); if (fs) fs.classList.remove('falta');
+      clearTimeout(guardarBorradorCal.t); const fm = e.target.form; guardarBorradorCal.t = setTimeout(() => guardarBorradorCal(fm), 400);
+    }
   });
   document.addEventListener('change', (e) => {
     const t = e.target;
     if (t.dataset.cambio === 'filtro-asesor') { filtrosLeads.asesor = t.value; filtrosLeads.mostrar = 60; repintar(); }
+    if (t.dataset.cambio === 'cal-asesor') { filtrosCal.asesor = t.value; filtrosCal.mostrar = 30; repintar(); const s = $('#calAsesor'); if (s) s.focus(); }
+    // Formulario de calidad: muestra motivo / interés según la calidad y guarda el borrador.
+    if (t.closest && t.closest('#modal .cal-item')) {
+      const fs = t.closest('.cal-item');
+      if (/_c$/.test(t.name)) fs.dataset.calidad = t.value;
+      fs.classList.remove('falta');
+      guardarBorradorCal(t.form);
+    }
     if (t.dataset.cambio === 'periodo') {
-      const cual = t.dataset.cual, f = cual === 'leads' ? filtrosLeads.periodo : filtrosStats;
+      const cual = t.dataset.cual, f = cual === 'leads' ? filtrosLeads.periodo : cual === 'cal' ? filtrosCal : filtrosStats;
       f.sel = t.value;
       if (f.sel === 'rango' && !f.desde) { f.desde = fechaConDesfase(-29); f.hasta = hoyClave(); }
       if (cual === 'leads') { filtrosLeads.mostrar = 60; if (filtrosLeads.estado === 'activos' && !['7', 'hoy'].includes(f.sel)) filtrosLeads.estado = 'todos'; }
@@ -3548,6 +3922,7 @@
         consultarMiCupo(); consultarPausa(); consultarOrdenHoja();
         temporizadores.push(setInterval(() => recargar(0), 60000));
         temporizadores.push(setInterval(revisarSeguimientos, 30000)); setTimeout(revisarSeguimientos, 3000);
+        temporizadores.push(setInterval(revisarAvisoCalidad, 30000)); setTimeout(revisarAvisoCalidad, 5000);
         temporizadores.push(setInterval(consultarMiCupo, 120000));
         temporizadores.push(setInterval(consultarPausa, 120000));
         temporizadores.push(setInterval(consultarOrdenHoja, 120000));
