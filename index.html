@@ -1208,12 +1208,14 @@
   function leerOriginal(archivo) {
     return new Promise((ok, mal) => { const r = new FileReader(); r.onload = () => ok(String(r.result)); r.onerror = () => mal(r.error); r.readAsDataURL(archivo); });
   }
-  async function comprimirImagen(archivo, ladoMax = COMPROBANTE_LADO_MAX, calidad = COMPROBANTE_CALIDAD, maxOriginal = COMPROBANTE_MAX) {
-    for (const sinBitmap of [false, true]) {
+  async function comprimirImagen(archivo, ladoMax = COMPROBANTE_LADO_MAX, calidad = COMPROBANTE_CALIDAD, maxOriginal = 1000000) {
+    // 1) normal; 2) con <img> y dibujo por CPU; 3) bitmap y dibujo por CPU. Algunos Android con Chrome dibujan
+    // en blanco con la tarjeta gráfica: willReadFrequently obliga a dibujar sin ella.
+    for (const [sinBitmap, porCpu] of [[false, false], [true, true], [false, true]]) {
       let img;
       try { img = await decodificarImagen(archivo, sinBitmap); }
       catch (e) {
-        if (sinBitmap) break;
+        if (sinBitmap || porCpu) continue;
         if (/heic|heif/i.test(archivo.type || '') || /\.hei[cf]$/i.test(archivo.name || '')) throw new Error('La foto está en formato HEIC del iPhone, que este navegador no abre. Haz una captura de pantalla de esa foto y sube la captura.');
         throw new Error('El archivo no se pudo abrir como imagen. Prueba con una captura de pantalla (PNG o JPG).');
       }
@@ -1222,7 +1224,7 @@
       const escala = Math.min(1, ladoMax / Math.max(ancho, alto));
       const lienzo = document.createElement('canvas');
       lienzo.width = Math.max(1, Math.round(ancho * escala)); lienzo.height = Math.max(1, Math.round(alto * escala));
-      const ctx = lienzo.getContext('2d');
+      const ctx = porCpu ? lienzo.getContext('2d', { willReadFrequently: true }) : lienzo.getContext('2d');
       ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, lienzo.width, lienzo.height);   // sin fondo, un PNG transparente queda negro
       ctx.drawImage(img, 0, 0, lienzo.width, lienzo.height);
       if (img.close) img.close();
@@ -1230,7 +1232,7 @@
     }
     // Las dos formas salieron en blanco: va el archivo tal cual.
     if (/^image\/(jpeg|png|webp)$/.test(archivo.type || '') && archivo.size <= maxOriginal) return await leerOriginal(archivo);
-    throw new Error('Tu navegador entrega la imagen en blanco. Abre el panel en Google Chrome (sin modo ahorro de datos) y vuelve a subir la captura.');
+    throw new Error('Tu teléfono entrega la imagen en blanco y la captura pesa demasiado para subirla tal cual. Recorta la captura (solo el chat) y vuelve a subirla.');
   }
   // La captura de un lead erróneo va más grande: la lee la IA.
   async function comprimirEvidencia(archivo) {
@@ -2738,7 +2740,7 @@
     const zona = $('#zonaArchivos'); if (zona) zona.innerHTML = '<p><b>Subiendo el comprobante…</b></p>';
     try {
       const dato = await comprimirImagen(f);
-      if (dato.length > COMPROBANTE_MAX * 1.37) throw new Error('La imagen sigue siendo muy pesada. Haz una captura más pequeña.');
+      if (dato.length > 1400000) throw new Error('La imagen sigue siendo muy pesada. Haz una captura más pequeña.');
       const { data, error } = await sb.from('leads').update({ foto_contacto_url: dato, contactado_en: new Date().toISOString(), estado: 'contactado' }).eq('id', l.id).select('id');
       if (error) throw error;
       if (!data || !data.length) throw new Error(rol === 'asignador' ? 'Supabase no dejó guardarlo: falta correr el SQL 07 (permiso de la asignadora en todos los leads).' : 'Supabase no dejó guardarlo: el lead no es tuyo.');
