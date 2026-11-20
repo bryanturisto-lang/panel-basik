@@ -1203,7 +1203,7 @@
       const paso = Math.max(4, Math.floor(d.length / 4 / 4000) * 4);
       for (let i = 0; i < d.length; i += paso) if (d[i] < 245 || d[i + 1] < 245 || d[i + 2] < 245) return false;
       return true;
-    } catch (e) { return true; }   // el navegador no deja leer el dibujo: no se puede confiar en él
+    } catch (e) { return false; }   // si el navegador (p. ej. Safari) no deja revisarlo, se confía en el dibujo como antes
   }
   function leerOriginal(archivo) {
     return new Promise((ok, mal) => { const r = new FileReader(); r.onload = () => ok(String(r.result)); r.onerror = () => mal(r.error); r.readAsDataURL(archivo); });
