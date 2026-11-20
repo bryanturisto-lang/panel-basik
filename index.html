@@ -1519,11 +1519,24 @@
     recargaPendiente = setTimeout(async () => {
       if (!miId || cargando) { if (miId) recargar(1500); return; }
       cargando = true;
-      try { await cargarDatos(); repintar(); }
-      catch (e) { console.error(e); avisar('No se pudieron actualizar los datos: ' + mensajeError(e), 'err'); }
-      finally { cargando = false; }
+      // En el celular una consulta puede quedar colgada para siempre (cambio de wifi a datos, pestaña dormida).
+      // Sin este límite "cargando" no se soltaba nunca y el panel dejaba de traer leads nuevos sin avisar.
+      let limite;
+      try {
+        await Promise.race([cargarDatos(), new Promise((_, mal) => { limite = setTimeout(() => mal(new Error('CARGA_COLGADA')), 30000); })]);
+        repintar();
+      }
+      catch (e) {
+        console.error(e);
+        if (e && e.message === 'CARGA_COLGADA') recargar(3000);
+        else avisar('No se pudieron actualizar los datos: ' + mensajeError(e), 'err');
+      }
+      finally { clearTimeout(limite); cargando = false; }
     }, ms);
   }
+  // Al volver a la pestaña o recuperar el internet se actualiza al momento (no espera al minuto).
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && miId) recargar(0); });
+  window.addEventListener('online', () => { if (miId) recargar(0); });
   const mensajeError = (e) => {
     const m = String((e && (e.message || e.error_description || e.details)) || e || 'error desconocido');
     if (/failed to fetch|network/i.test(m)) return 'sin conexión. Revisa el internet.';
